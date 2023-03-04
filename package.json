@@ -1,5 +1,6 @@
 {
-  "name": "",
+  "name": "website",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -7,9 +8,19 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
-    "astro": "^2.0.17"
+    "@astrojs/image": "^0.15.1",
+    "@astrojs/sitemap": "^1.1.0",
+    "@astrojs/tailwind": "^3.0.1",
+    "astro": "^2.0.17",
+    "tailwindcss": "^3.0.24"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.4",
+    "prettier-plugin-astro": "^0.8.0",
+    "sharp": "^0.31.3"
   }
 }
