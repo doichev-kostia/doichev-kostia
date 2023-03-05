@@ -1,0 +1,30 @@
+---
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import HeadCommon from "./HeadCommon.astro";
+---
+<html dir="ltr" lang="en">
+	<head>
+		<HeadCommon/>
+		<title>Doichev Kostia</title>
+	</head>
+	<body class="bg-slate-900">
+		<div class="layout px-4 md:px-6">
+			<Header/>
+			<main class="max-w-7xl">
+				<slot />
+			</main>
+			<Footer/>
+		</div>
+
+	</body>
+</html>
+
+<style>
+	.layout {
+		display: grid;
+		justify-content: center;
+		grid-template-rows: auto 1fr auto;
+		min-height: 100vh;
+	}
+</style>

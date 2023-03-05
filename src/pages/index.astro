@@ -1,15 +1,70 @@
 ---
+import '@/global.css'
+import Layout from "@/components/Layout.astro";
+import Social from "../components/Social.astro";
+import Twitter from "../icons/Twitter.astro";
+import GitHub from "../icons/GitHub.astro";
+import LinkedIn from "../icons/LinkedIn.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+	<section class="pt-5 pb-10 flex flex-col md:flex-row md:justify-between md:items-center">
+		<h2 class="text-white text-2xl mb-5">
+			Hey!👋
+			<br/>
+			My name is Kostia, and I'm a software engineer.
+		</h2>
+		<ul class="flex gap-4 text-white text-2xl">
+			<li>
+				<Social href="https://twitter.com/doichev_kostia" title="Twitter account">
+					<Twitter/>
+				</Social>
+			</li>
+			<li>
+				<Social href="https://github.com/doichev-kostia" title="My GitHub">
+					<GitHub/>
+				</Social>
+			</li>
+			<li>
+				<Social href="https://www.linkedin.com/in/kostia-doichev" title="LinkedIn account">
+					<LinkedIn/>
+				</Social>
+			</li>
+		</ul>
+	</section>
+	<section class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
+		<div>
+			<h3 class="text-white text-xl font-bold mb-5"> About me</h3>
+			<p class="text-base text-white">
+				I was born in Ukraine 🇺🇦, and ever since I was a child, I've had a keen interest in engineering and
+				architecture.
+				Can't remember not exploring every detail of a newly bought car or building a LEGO house.
+
+				<br/>
+
+				As I grew older, I found another passion: dancing.
+				I became a professional dancer and spent eight years performing on stages around the world.
+				It was an incredible experience, and I learned so much about discipline, creativity, and perseverance.
+
+				<br/>
+
+				However, I eventually decided to shift gears and pursue a career in software engineering.
+				I am currently studying at Kyiv Polytechnic Institute,
+				where I am learning all about software development and computer programming.
+			</p>
+		</div>
+		<div>
+			<h3 class="text-white text-xl font-bold mb-5"> My current involvement </h3>
+			<p class="text-base text-white">
+				As a developer, I am mainly involved in front-end development, particularly with React. I am comfortable
+				working with a variety of tools and libraries within the React ecosystem and actively exploring the
+				fast-evolving world of the front end. While front-end development is my main focus, I also have some
+				experience in back-end development with Node.js.
+				<br/>
+				I am passionate about staying up-to-date with the latest technologies and committed to continuously
+				improving my skills as an engineer.
+			</p>
+		</div>
+
+	</section>
+</Layout>

@@ -1,0 +1,42 @@
+---
+
+const currentPageUrl = Astro.url.pathname;
+
+const isActive = (pathname: string, slug: string) => {
+	if (slug === '/') return (pathname === '/').toString();
+
+	return pathname.endsWith(slug).toString()
+}
+
+---
+
+<header class="max-w-7xl py-4">
+	<div class="flex items-center justify-between gap-5">
+		<h1>
+			<a href="/" class="text-white text-xl font-semibold">
+				Doichev Kostia
+			</a>
+		</h1>
+		<nav>
+			<ul class="flex gap-3 text-slate-400">
+				<li>
+					<a href="/" class="text-base" data-active={isActive(currentPageUrl, '/')}>
+						About me
+					</a>
+				</li>
+				<li>
+					<a href="/blog" class="text-base" data-active={isActive(currentPageUrl, '/blog')}>
+						Blog
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</header>
+
+
+<style>
+	[data-active="true"] {
+		color: #ffffff;
+	}
+</style>

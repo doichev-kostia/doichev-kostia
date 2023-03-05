@@ -1,0 +1,11 @@
+---
+import {HTMLAttributes} from "astro/types";
+type Props = HTMLAttributes<HTMLAnchorElement>;
+
+const {href, title, ...rest} = Astro.props as Props;
+
+---
+
+<a href={href} title={title} rel="noreferrer" {...rest} >
+	<slot/>
+</a>
