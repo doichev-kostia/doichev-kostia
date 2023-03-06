@@ -1,11 +1,12 @@
 ---
-
+import {removeLeadingSlash, removeTrailingSlash} from "../utils";
 const currentPageUrl = Astro.url.pathname;
 
 const isActive = (pathname: string, slug: string) => {
 	if (slug === '/') return (pathname === '/').toString();
+	const normalizedPath = removeLeadingSlash(removeTrailingSlash(pathname))
 
-	return pathname.endsWith(slug).toString()
+	return normalizedPath.endsWith(slug).toString()
 }
 
 ---
@@ -25,7 +26,7 @@ const isActive = (pathname: string, slug: string) => {
 					</a>
 				</li>
 				<li>
-					<a href="/blog" class="text-base" data-active={isActive(currentPageUrl, '/blog')}>
+					<a href="/blog" class="text-base" data-active={isActive(currentPageUrl, 'blog')}>
 						Blog
 					</a>
 				</li>
