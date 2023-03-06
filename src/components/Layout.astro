@@ -9,7 +9,7 @@ import HeadCommon from "./HeadCommon.astro";
 		<title>Doichev Kostia</title>
 	</head>
 	<body class="bg-slate-900">
-		<div class="layout px-4 md:px-6">
+		<div class="layout px-4 md:px-6 max-w-7xl mx-auto">
 			<Header/>
 			<main class="max-w-7xl">
 				<slot />
@@ -23,7 +23,6 @@ import HeadCommon from "./HeadCommon.astro";
 <style>
 	.layout {
 		display: grid;
-		justify-content: center;
 		grid-template-rows: auto 1fr auto;
 		min-height: 100vh;
 	}
