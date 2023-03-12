@@ -1,0 +1,36 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const blogPosts = await getCollection("blog");
+---
+
+<Layout>
+	<section>
+		<h1 class="mb-6 text-3xl md:text-5xl text-slate-200">Blog</h1>
+
+		<ul class="grid blog-list justify-items-center gap-x-3 gap-y-5">
+			{
+				blogPosts.map((post) => {
+					return (
+						<li class="max-w-[300px]">
+							<BlogCard
+								title={post.data.title}
+								image={post.data.image}
+								publishedAt={post.data.publishedAt}
+								slug={post.slug}
+							/>
+						</li>
+					);
+				})
+			}
+		</ul>
+	</section>
+</Layout>
+
+<style>
+	.blog-list {
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	}
+</style>

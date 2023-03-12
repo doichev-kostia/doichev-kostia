@@ -1,0 +1,22 @@
+---
+type Props = {
+	slug: string;
+	image: string;
+	title: string;
+	publishedAt: Date;
+};
+
+const { slug, image, title, publishedAt } = Astro.props;
+const formatter = new Intl.DateTimeFormat("en-GB");
+const date = formatter
+	.format(publishedAt) // returns a string in the format "dd/MM/yyyy"
+	.replaceAll("/", ".");
+---
+
+<a href={`/blog/${slug}`} class="block text-slate-200 p-2 shadow-xl bg-slate-800 rounded-xl">
+	<figure class="block">
+		<img src={image} alt={title} class="block mb-3" />
+		<figcaption class="mb-3">{title}</figcaption>
+		<time class="text-gray-400">{date}</time>
+	</figure>
+</a>

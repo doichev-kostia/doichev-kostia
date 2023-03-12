@@ -1,0 +1,58 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, getEntryBySlug } from "astro:content";
+
+type Params = {
+	slug: string;
+};
+
+export async function getStaticPaths() {
+	const blogPosts = (await getCollection("blog")) ?? [];
+	return blogPosts.map((post) => ({
+		params: {
+			slug: post.slug,
+		},
+	}));
+}
+
+const { slug } = Astro.params as Params;
+
+const post = await getEntryBySlug("blog", slug);
+
+if (!post) {
+	throw new Error(`No post found for slug: ${slug}`);
+}
+
+const { data } = post;
+const { Content } = await post.render();
+const formatter = new Intl.DateTimeFormat("en-GB");
+const date = formatter
+	.format(data.publishedAt) // returns a string in the format "dd/MM/yyyy"
+	.replaceAll("/", ".");
+---
+
+<Layout>
+	<article>
+		<div class="mb-8">
+			<h1 class="text-3xl md:text-5xl font-semibold mb-2 text-slate-200">{data.title}</h1>
+			<time class="text-gray-400">{date}</time>
+		</div>
+
+		<figure class="max-w-4xl mx-auto mb-8">
+			<img src={data.image} alt={data.title} />
+			{
+				data?.imageSource && (
+					<figcaption class="text-center mt-3 text-lg">
+						<a class="text-white underline underline-offset-4" href={data.imageSource}>
+							Source
+						</a>
+					</figcaption>
+				)
+			}
+		</figure>
+
+		<div class="max-w-4xl mx-auto prose text-slate-400 prose-a:text-white prose-a:underline-offset-4">
+			<Content />
+		</div>
+	</article>
+</Layout>

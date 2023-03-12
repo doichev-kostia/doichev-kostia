@@ -1,43 +1,35 @@
 ---
-import {removeLeadingSlash, removeTrailingSlash} from "../utils";
+import { removeLeadingSlash, removeTrailingSlash } from "../utils";
 const currentPageUrl = Astro.url.pathname;
 
 const isActive = (pathname: string, slug: string) => {
-	if (slug === '/') return (pathname === '/').toString();
-	const normalizedPath = removeLeadingSlash(removeTrailingSlash(pathname))
+	if (slug === "/") return (pathname === "/").toString();
+	const normalizedPath = removeLeadingSlash(removeTrailingSlash(pathname));
 
-	return normalizedPath.endsWith(slug).toString()
-}
-
+	return normalizedPath.endsWith(slug).toString();
+};
 ---
 
-<header class="max-w-7xl py-4">
+<header class="max-w-7xl py-4 border-b border-b-slate-400 text-slate-200">
 	<div class="flex items-center justify-between gap-5">
-		<h1>
-			<a href="/" class="text-white text-xl font-semibold">
-				Doichev Kostia
-			</a>
-		</h1>
+		<h2>
+			<a href="/" class="text-slate-200 text-xl font-semibold"> Doichev Kostia</a>
+		</h2>
 		<nav>
 			<ul class="flex gap-3 text-slate-400">
 				<li>
-					<a href="/" class="text-base" data-active={isActive(currentPageUrl, '/')}>
-						About me
-					</a>
+					<a href="/" class="text-base" data-active={isActive(currentPageUrl, "/")}> About me</a>
 				</li>
 				<li>
-					<a href="/blog" class="text-base" data-active={isActive(currentPageUrl, 'blog')}>
-						Blog
-					</a>
+					<a href="/blog" class="text-base" data-active={isActive(currentPageUrl, "blog")}> Blog</a>
 				</li>
 			</ul>
 		</nav>
 	</div>
 </header>
 
-
 <style>
 	[data-active="true"] {
-		color: #ffffff;
+		color: rgb(226, 232, 240);
 	}
 </style>
