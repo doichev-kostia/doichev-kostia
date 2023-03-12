@@ -5,3 +5,8 @@
 * {
 	box-sizing: border-box;
 }
+
+:root {
+	--primary-color: 198.44 93.204% 47.686%;
+	--primary-focused: 198.44 93.204% 40%;
+}

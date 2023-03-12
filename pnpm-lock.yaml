@@ -5,9 +5,12 @@ specifiers:
   '@astrojs/sitemap': ^1.1.0
   '@astrojs/tailwind': ^3.0.1
   astro: ^2.0.17
+  class-variance-authority: ^0.4.0
+  classnames: ^2.3.2
   prettier: ^2.8.4
   prettier-plugin-astro: ^0.8.0
   sharp: ^0.31.3
+  tailwind-merge: ^1.10.0
   tailwindcss: ^3.0.24
 
 dependencies:
@@ -15,6 +18,9 @@ dependencies:
   '@astrojs/sitemap': 1.1.0
   '@astrojs/tailwind': 3.0.1_o7rlocdsudmdrstqcqbafrcodq
   astro: 2.0.17
+  class-variance-authority: 0.4.0
+  classnames: 2.3.2
+  tailwind-merge: 1.10.0
   tailwindcss: 3.2.7
 
 devDependencies:
@@ -1103,6 +1109,19 @@ packages:
   /ci-info/3.8.0:
     resolution: {integrity: sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==}
     engines: {node: '>=8'}
+    dev: false
+
+  /class-variance-authority/0.4.0:
+    resolution: {integrity: sha512-74enNN8O9ZNieycac/y8FxqgyzZhZbxmCitAtAeUrLPlxjSd5zA7LfpprmxEcOmQBnaGs5hYhiSGnJ0mqrtBLQ==}
+    peerDependencies:
+      typescript: '>= 4.5.5 < 5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dev: false
+
+  /classnames/2.3.2:
+    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
 
   /cli-boxes/3.0.0:
@@ -3078,6 +3097,10 @@ packages:
     dependencies:
       '@pkgr/utils': 2.3.1
       tslib: 2.5.0
+
+  /tailwind-merge/1.10.0:
+    resolution: {integrity: sha512-WFnDXSS4kFTZwjKg5/oZSGzBRU/l+qcbv5NVTzLUQvJ9yovDAP05h0F2+ZFW0Lw9EcgRoc2AfURUdZvnEFrXKg==}
+    dev: false
 
   /tailwindcss/3.2.7:
     resolution: {integrity: sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==}
