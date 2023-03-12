@@ -1,11 +1,10 @@
 ---
-import {HTMLAttributes} from "astro/types";
-type Props = HTMLAttributes<HTMLAnchorElement>;
+import type { HTMLAttributes } from "astro/types";
+type Props = HTMLAttributes<"a">;
 
-const {href, title, ...rest} = Astro.props as Props;
-
+const { href, title, ...rest } = Astro.props as Props;
 ---
 
-<a href={href} title={title} rel="noreferrer" {...rest} >
-	<slot/>
+<a href={href} title={title} rel="noreferrer" {...rest}>
+	<slot />
 </a>
