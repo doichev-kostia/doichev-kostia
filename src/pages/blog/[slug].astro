@@ -31,7 +31,7 @@ const date = formatter
 	.replaceAll("/", ".");
 ---
 
-<Layout>
+<Layout title={data.title} image={{src: data.image, alt: data.title}} pageType="article">
 	<article>
 		<div class="mb-8">
 			<h1 class="text-3xl md:text-5xl font-semibold mb-2 text-slate-200">{data.title}</h1>

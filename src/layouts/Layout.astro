@@ -3,12 +3,30 @@ import "@/global.css";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import HeadCommon from "@/components/HeadCommon.astro";
+
+
+export type Props = {
+	title?: string
+	description?: string
+	image?: { src: string; alt: string }
+	canonicalURL?: URL | null
+	pageType?: "website" | "article"
+}
+
+const {  title, description, image, canonicalURL, pageType} = Astro.props as Props;
+
 ---
 
 <html dir="ltr" lang="en">
 	<head>
-		<HeadCommon />
-		<title>Doichev Kostia</title>
+		<HeadCommon
+			title={title}
+			description={description}
+			image={image}
+			canonicalURL={canonicalURL}
+			og={{ type: pageType }}
+		/>
+
 		<style>
 			.layout {
 				display: grid;

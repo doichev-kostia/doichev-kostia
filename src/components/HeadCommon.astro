@@ -1,11 +1,107 @@
 ---
+import { siteinfo } from "../data/siteinfo";
 
+export type Image = {
+	src: string
+	alt: string
+}
+export type SEOMetadata = {
+	title: string
+	description: string
+	image: Image
+	canonicalURL?: URL | string | null
+	locale?: string
+}
+export type OpenGraph = Partial<SEOMetadata> & {
+	type?: "website" | "article";
+}
+export type Twitter = Partial<SEOMetadata> & {
+	handle?: string
+	card?: "summary" | "summary_large_image"
+}
+export type Props = SEOMetadata & {
+	og?: OpenGraph
+	twitter?: Twitter
+}
+
+const {
+	title,
+	description = siteinfo.description,
+	canonicalURL = new URL(Astro.url.pathname, Astro.site),
+	image,
+	locale = "en",
+} = Astro.props as Props;
+
+const websiteTitle = [title, siteinfo.title].filter(Boolean).join(" | ");
+
+const og = {
+	title: websiteTitle,
+	description,
+	type: "website",
+	image,
+	locale,
+	canonicalURL,
+	...Astro.props.og,
+} satisfies OpenGraph;
+
+const twitter = {
+	title: websiteTitle,
+	description,
+	card: "summary_large_image",
+	image,
+	locale,
+	...Astro.props.twitter,
+} satisfies Twitter;
+const twitterHandle = "doichev_kostia"
+
+/**
+ * Enforce some standard canonical URL formatting across the site.
+ */
+function formatCanonicalURL(url: string | URL) {
+	const path = url.toString();
+	const hasQueryParams = path.includes("?");
+	// If there are query params, make sure the URL has no trailing slash
+	if (hasQueryParams) {
+		path.replace(/\/?$/, "");
+	}
+	// otherwise, canonical URL always has a trailing slash
+	return path.replace(/\/?$/, hasQueryParams ? "" : "/");
+}
 ---
-<meta charset="utf-8" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-<link rel="manifest" href="/site.webmanifest" />
-<link rel="sitemap" href="/sitemap.xml" />
-<meta name="viewport" content="width=device-width" />
-<meta name="generator" content={Astro.generator} />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width"/>
+<title>{websiteTitle}</title>
+{canonicalURL &&
+<link rel="canonical" href={formatCanonicalURL(canonicalURL)}/>}
+<meta name="theme-color" content="#0F172A"/>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+
+<link rel="manifest" href="/site.webmanifest"/>
+<link rel="sitemap" href="/sitemap.xml"/>
+<meta name="generator" content={Astro.generator}/>
+
+<meta name="description" content={description}/>
+
+<meta property="og:title" content={og.title}/>
+<meta property="og:type" content={og.type}/>
+
+{og.canonicalURL &&
+<meta property="og:url" content={formatCanonicalURL(og.canonicalURL)}/>}
+<meta property="og:locale" content={og.locale}/>
+<meta property="og:description" content={og.description}/>
+<meta property="og:site_name" content={siteinfo.title}/>
+
+{og.image && <meta property="og:image" content={og.image.src} />}
+{og.image && <meta property="og:image:alt" content={og.image.alt} />}
+
+{twitter.card && <meta name="twitter:card" content={twitter.card} />}
+<meta name="twitter:site" content={twitterHandle} />
+
+<meta name="twitter:title" content={twitter.title} />
+<meta name="twitter:description" content={twitter.description} />
+{twitter.image && <meta name="twitter:image" content={twitter.image.src} />}
+{twitter.image && <meta name="twitter:image:alt" content={twitter.image.alt} />}
+
