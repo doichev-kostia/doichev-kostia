@@ -3,7 +3,6 @@ title: "App Engine deployment pipelines"
 summary: "Using GitHub Actions pipelines to deploy client-side applications to App Engine"
 publishedAt: "2023-12-29"
 minutesToRead: 12
-draft: true
 ---
 
 ## Introduction
