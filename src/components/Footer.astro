@@ -1,7 +1,10 @@
 ---
+import Typography from "./Typography.astro";
+import { cx } from "../utils/cx";
 
+const { class: className} = Astro.props;
 ---
 
-<footer class="max-w-7xl py-4">
-	<p>© 2023 Doichev Kostiantyn. All rights reserved.</p>
+<footer class={cx("container pt-4 pb-16", className)}>
+	<Typography component="p">© 2023 Doichev Kostiantyn. All rights reserved.</Typography>
 </footer>

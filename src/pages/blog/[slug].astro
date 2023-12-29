@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getCollection, getEntryBySlug } from "astro:content";
+import Typography from "../../components/Typography.astro";
 
 type Params = {
 	slug: string;
@@ -20,7 +21,7 @@ const { slug } = Astro.params as Params;
 const post = await getEntryBySlug("blog", slug);
 
 if (!post) {
-	throw new Error(`No post found for slug: ${slug}`);
+	return Astro.redirect("/404");
 }
 
 const { data } = post;
@@ -31,29 +32,29 @@ const date = formatter
 	.replaceAll("/", ".");
 ---
 
-<Layout title={data.title} image={{src: data.image, alt: data.title}} pageType="article">
-	<article>
-		<div class="mb-8">
-			<h1 class="text-3xl md:text-5xl font-semibold mb-2 text-slate-200">{data.title}</h1>
-			<time class="text-gray-400">{date}</time>
+<Layout title={data.title} pageType="article">
+	<header class="container mb-3">
+		<div class="mb-3">
+			<Typography component="a" href="/" class="text-muted-foreground no-underline inline-block text-lg">
+				← home
+			</Typography>
 		</div>
-
-		<figure class="max-w-4xl mx-auto mb-8">
-			<img src={data.image} alt={data.title} />
-			{
-				data?.imageSource && (
-					<figcaption class="text-center mt-3 text-lg">
-						<a class="text-white underline underline-offset-4" href={data.imageSource}>
-							Source
-						</a>
-					</figcaption>
-				)
-			}
-		</figure>
-
-		<div
-			class="max-w-4xl mx-auto prose text-slate-400 prose-a:text-white prose-a:underline-offset-4 prose-headings:text-slate-200"
-		>
+	</header>
+	<article class="post-content ">
+		<header class="mb-8">
+			<Typography component="h1"
+						class="text-3xl md:text-5xl font-semibold mb-1 md:mb-3 tracking-tight">{data.title}</Typography>
+			<Typography component="p"
+						class="text-xl md:text-2xl text-muted-foreground mb-0.5 md:mb-1 tracking-tight">{data.summary}</Typography>
+			<div class="flex items-center text-muted-foreground text-sm tracking-tight">
+				<Typography component="time" datetime={date}>{date}</Typography>
+				<Typography class="relative bottom-px">&ensp;|&ensp;</Typography>
+				<Typography component="span">
+					{data.minutesToRead} min read
+				</Typography>
+			</div>
+		</header>
+		<div class="prose prose-neutral prose-a:text-white prose-a:underline-offset-4 ">
 			<Content />
 		</div>
 	</article>

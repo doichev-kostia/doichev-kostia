@@ -3,43 +3,45 @@ import type { HTMLAttributes, HTMLTag } from "astro/types";
 import { cva, VariantProps } from "class-variance-authority";
 import { cx } from "@/utils/cx";
 
-const buttonStyles = cva(
-	"inline-flex cursor-pointer flex-shrink-0 flex-wrap items-center justify-center rounded-lg border-transparent text-center px-4 py-2 text-sm font-semibold transition duration-200 ease-in-out uppercase no-underline",
+const buttonVariants = cva(
+	"inline-flex font-mono items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
 	{
 		variants: {
 			variant: {
-				contained: "",
-				outlined: "",
+				default: "bg-primary text-primary-foreground hover:bg-primary/90",
+				destructive:
+					"bg-destructive text-destructive-foreground hover:bg-destructive/90",
+				outline:
+					"border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+				secondary:
+					"bg-secondary text-secondary-foreground hover:bg-secondary/80",
+				ghost: "hover:bg-accent hover:text-accent-foreground",
+				link: "text-primary underline-offset-4 hover:underline",
 			},
-			color: {
-				primary: "",
+			size: {
+				default: "h-10 px-4 py-2",
+				sm: "h-9 rounded-md px-3",
+				lg: "h-11 rounded-md px-8",
+				icon: "h-10 w-10",
 			},
 		},
-		compoundVariants: [
-			{
-				variant: "contained",
-				color: "primary",
-				class: "bg-primary text-white hover:bg-primary-focused",
-			},
-			{
-				variant: "outlined",
-				color: "primary",
-				class: "border-primary text-primary",
-			},
-		],
+		defaultVariants: {
+			variant: "default",
+			size: "default",
+		},
 	}
-);
+)
 
 export type Props<T extends HTMLTag = "button"> = Omit<HTMLAttributes<T>, "color"> &
-	VariantProps<typeof buttonStyles> & {
+	VariantProps<typeof buttonVariants> & {
 		component?: HTMLTag;
 	};
 
-const { variant = "contained", color = "primary", className, component, ...props } = Astro.props;
+const { variant, size, class: className, component, ...props } = Astro.props;
 
 const Tag = component || "button";
 ---
 
-<Tag class={cx(buttonStyles({ variant, color, className }))} {...props}>
+<Tag class={cx(buttonVariants({ variant, size, className }))}  {...props}>
 	<slot />
 </Tag>

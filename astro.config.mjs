@@ -13,5 +13,12 @@ export default defineConfig({
 	image: {
 		service: sharpImageService(),
 	},
+	markdown: {
+		shikiConfig: {
+			experimentalThemes: {
+				light: "github-light",
+			}
+		}
+	},
 	integrations: [tailwind(), sitemap()]
 });

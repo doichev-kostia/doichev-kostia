@@ -1,67 +1,57 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Social from "../components/Social.astro";
-import Twitter from "../icons/Twitter.astro";
+import X from "../icons/X.astro";
 import GitHub from "../icons/GitHub.astro";
 import LinkedIn from "../icons/LinkedIn.astro";
+import Typography from "../components/Typography.astro";
+import { getCollection } from "astro:content";
+import BlogCard from "../components/BlogCard.astro";
+
+const posts = await getCollection("blog", ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+});
 ---
 
 <Layout>
-	<section class="pt-5 pb-10 flex flex-col md:flex-row md:justify-between md:items-center">
-		<h1 class="text-3xl mb-5 text-slate-200">
-			Hey!👋
-			<br />
-			My name is Kostia, and I'm a software engineer.
-		</h1>
-		<ul class="flex gap-4 text-slate-200 text-2xl transition-colors">
-			<li class="hover:text-slate-400">
-				<Social href="https://twitter.com/doichev_kostia" title="Twitter account">
-					<Twitter />
-				</Social>
-			</li>
-			<li class="hover:text-slate-400">
-				<Social href="https://github.com/doichev-kostia" title="My GitHub">
-					<GitHub />
-				</Social>
-			</li>
-			<li class="hover:text-slate-400">
-				<Social href="https://www.linkedin.com/in/kostia-doichev" title="LinkedIn account">
-					<LinkedIn />
-				</Social>
-			</li>
+	<header class="pt-5 pb-10 container">
+		<div class="flex flex-col md:flex-row md:justify-between md:items-center mb-5">
+			<Typography component="h1" class="text-3xl mb-3 md:mb-0">
+				Kostia Doichev
+			</Typography>
+			<ul class="flex gap-4 text-2xl transition-colors">
+				<li>
+					<Social href="https://twitter.com/doichev_kostia" title="X account">
+						<X />
+					</Social>
+				</li>
+				<li>
+					<Social href="https://github.com/doichev-kostia" title="My GitHub">
+						<GitHub />
+					</Social>
+				</li>
+				<li>
+					<Social href="https://www.linkedin.com/in/kostia-doichev" title="LinkedIn account">
+						<LinkedIn />
+					</Social>
+				</li>
+			</ul>
+		</div>
+		<Typography component="p">I build different stuff</Typography>
+	</header>
+	<section class="container">
+		<ul class="flex flex-col gap-5">
+			{posts.map((post) => (
+				<li>
+					<BlogCard
+						slug={post.slug}
+						title={post.data.title}
+						summary={post.data.summary}
+						publishedAt={post.data.publishedAt}
+						minutesToRead={post.data.minutesToRead}
+					/>
+				</li>
+			))}
 		</ul>
-	</section>
-	<section class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
-		<div>
-			<h3 class="text-xl font-bold mb-5 text-slate-200">About me</h3>
-			<p class="text-base">
-				I was born in Ukraine 🇺🇦, and ever since I was a child, I've had a keen interest in engineering and
-				architecture. Can't remember not exploring every detail of a newly bought car or building a LEGO house.
-
-				<br />
-
-				As I grew older, I found another passion: dancing. I became a professional dancer and spent eight years
-				performing on stages around the world. It was an incredible experience, and I learned so much about
-				discipline, creativity, and perseverance.
-
-				<br />
-
-				However, I eventually decided to shift gears and pursue a career in software engineering. I am currently
-				studying at Kyiv Polytechnic Institute, where I am learning all about software development and computer
-				programming.
-			</p>
-		</div>
-		<div>
-			<h3 class="text-xl font-bold mb-5 text-slate-200">My current involvement</h3>
-			<p class="text-base">
-				As a developer, I am mainly involved in front-end development, particularly with React. I am comfortable
-				working with a variety of tools and libraries within the React ecosystem and actively exploring the
-				fast-evolving world of the front end. While front-end development is my main focus, I also have some
-				experience in back-end development with Node.js.
-				<br />
-				I am passionate about staying up-to-date with the latest technologies and committed to continuously improving
-				my skills as an engineer.
-			</p>
-		</div>
 	</section>
 </Layout>

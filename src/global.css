@@ -2,15 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-	box-sizing: border-box;
-}
-
 img {
 	max-width: 100%;
 }
 
-:root {
-	--primary-color: 198.44 93.204% 47.686%;
-	--primary-focused: 198.44 93.204% 40%;
+@layer base {
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 0 0% 3.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 0 0% 3.9%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 0 0% 3.9%;
+		--primary: 0 0% 9%;
+		--primary-foreground: 0 0% 98%;
+		--secondary: 0 0% 96.1%;
+		--secondary-foreground: 0 0% 9%;
+		--muted: 0 0% 96.1%;
+		--muted-foreground: 0 0% 45.1%;
+		--accent: 0 0% 96.1%;
+		--accent-foreground: 0 0% 9%;
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 0 0% 89.8%;
+		--input: 0 0% 89.8%;
+		--ring: 0 0% 3.9%;
+		--radius: 0.5rem;
+	}
+}
+
+/* preview the colors in IDE */
+#theme-preview {
+	--background: hsl(0 0% 100%);
+	--foreground: hsl(0 0% 3.9%);
+	--card: hsl(0 0% 100%);
+	--card-foreground: hsl(0 0% 3.9%);
+	--popover: hsl(0 0% 100%);
+	--popover-foreground: hsl(0 0% 3.9%);
+	--primary: hsl(0 0% 9%);
+	--primary-foreground: hsl(0 0% 98%);
+	--secondary: hsl(0 0% 96.1%);
+	--secondary-foreground: hsl(0 0% 9%);
+	--muted: hsl(0 0% 96.1%);
+	--muted-foreground: hsl(0 0% 45.1%);
+	--accent: hsl(0 0% 96.1%);
+	--accent-foreground: hsl(0 0% 9%);
+	--destructive: hsl(0 84.2% 60.2%);
+	--destructive-foreground: hsl(0 0% 98%);
+	--border: hsl(0 0% 89.8%);
+	--input: hsl(0 0% 89.8%);
+	--ring: hsl(0 0% 3.9%);
+}
+
+@layer base {
+	* {
+		@apply border-border;
+		box-sizing: border-box;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
+}
+
+.container {
+	max-width: 100%;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+
+	@screen md {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+
+	@screen lg {
+		max-width: 1024px;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}
+
+.post-content {
+	max-width: 100%;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+
+	@screen md {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+
+	@screen lg {
+		max-width: 768px;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 }

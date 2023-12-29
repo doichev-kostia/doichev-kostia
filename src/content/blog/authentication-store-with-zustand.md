@@ -1,8 +1,8 @@
 ---
 title: "Authentication store with zustand"
-image: '/blog/auth-store-zustand/bear.jpg'
-imageSource: 'https://github.com/pmndrs/zustand/blob/2b29d736841dc7b3fd7dec8cbfea50fee7295974/bear.jpg'
+summary: "How to build an authentication store with zustand"
 publishedAt: "2023-03-12"
+minutesToRead: 6
 ---
 
 ## Storage

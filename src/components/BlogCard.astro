@@ -1,22 +1,29 @@
 ---
+import Typography from "./Typography.astro";
 type Props = {
 	slug: string;
-	image: string;
 	title: string;
+	summary: string;
+	minutesToRead: number;
 	publishedAt: Date;
 };
 
-const { slug, image, title, publishedAt } = Astro.props;
+const { slug, title, publishedAt, summary, minutesToRead } = Astro.props as Props;
 const formatter = new Intl.DateTimeFormat("en-GB");
 const date = formatter
 	.format(publishedAt) // returns a string in the format "dd/MM/yyyy"
 	.replaceAll("/", ".");
 ---
 
-<a href={`/blog/${slug}`} class="block text-slate-200 p-2 shadow-xl bg-slate-800 rounded-xl">
-	<figure class="block">
-		<img src={image} alt={title} class="block mb-3" />
-		<figcaption class="mb-3">{title}</figcaption>
-		<time class="text-gray-400">{date}</time>
-	</figure>
+<a href={`/blog/${slug}`} class="block p-4 shadow-xl bg-card text-card-foreground rounded-xl">
+	<Typography component="h2" class="text-2xl font-semibold leading-none tracking-tight mb-2">{title}</Typography>
+	<Typography component="p" class="text-lg text-muted-foreground mb-3">{summary}</Typography>
+	<div class="flex items-center text-muted-foreground text-sm">
+		<Typography component="time" datetime={date}>{date}</Typography>
+		<Typography class="relative bottom-px">&ensp;|&ensp;</Typography>
+		<Typography component="span">
+			{minutesToRead} min read
+		</Typography>
+	</div>
 </a>
+
