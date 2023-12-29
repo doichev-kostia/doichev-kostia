@@ -8,7 +8,7 @@ draft: true
 
 ## Introduction
 
-In the following blog post I will show how to deploy the client-side applications (static websites/web-apps) to Google
+In the following blog post, I will show how to deploy client-side applications (static websites/web apps) to Google
 App Engine using GitHub Actions pipelines.
 Additionally, we will go through the process of setting up the temporary environments for major features that require a
 separate environment for testing.
@@ -21,7 +21,7 @@ Also, we are going to use the Workload Identity Provider to authenticate to GCP 
 You can read the setup instructions
 in [this article](https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions).
 
-In the end you should have the following secrets and variables:
+In the end, you should have the following secrets and variables:
 WORKLOAD_IDENTITY_PROVIDER: projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
 SERVICE_ACCOUNT: my-service-account@my-project.iam.gserviceaccount.com
 GCP_PROJECT_ID: my-project
@@ -30,7 +30,7 @@ You can already add them to your GitHub actions secrets and variables.
 
 ## Project
 
-For the sake of simplicity I created a simple Astro app with a few pages that will be deployed to the App Engine.
+For the sake of simplicity, I created a simple Astro app with a few pages that will be deployed to the App Engine.
 The app engine requires the configuration file to be present during the deployment. Usually, it's the same file but with
 different service names for different environments.
 It can be beneficial to automatically generate that file during the pipeline execution.
@@ -142,11 +142,11 @@ have a `master` branch and short-lived branches for features, hotfixes and major
 
 We usually want to have at least 2 environments - staging and production. The staging environment should be nearly
 identical to the real-world production environment.
-To achieve that we will setup the following triggers:
+To achieve that we will set the following triggers:
 on push to master - deploy to staging
 on release publish - deploy to production
 
-So, let's create the deployment workflow. We will create a re-usable workflow that can be used for both staging and
+So, let's create the deployment workflow. We will create a reusable workflow that can be used for both staging and
 production deployments.
 
 ```shell
@@ -229,7 +229,7 @@ jobs:
           app_yaml_path: ${{ inputs.env }}.yml
 ```
 
-Small explanation of the workflow:
+A small explanation of the workflow:
 
 ```
 on:
@@ -250,10 +250,7 @@ environment for us.
      ref: ${{ github.event.inputs.version || github.ref }}
 ```
 
-the next step is needed to checkout the code from the branch that triggered the workflow. If the workflow is triggered
-by a
-release, the `github.event.inputs.version` will be set to the release tag, so we can deploy different version if
-needed. // TODO: fix
+In this step we checkout either to the specified version or latest commit in the current branch
 
 ```
   - uses: pnpm/action-setup@v2
@@ -300,7 +297,7 @@ production/staging)
       app_yaml_path: ${{ inputs.env }}.yml
 ```
 
-This is a re-usable action me and my colleagues created at Panenco. It will deploy the app to app engine using the
+This is a reusable action that I and my colleagues created at Panenco. It will deploy the app to the app engine using the
 provided configuration.
 You can see its source code at [Panenco/gcp-deploy-action](https://github.com/Panenco/gcp-deploy-action).
 
@@ -378,26 +375,25 @@ jobs:
       GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
 ```
 
-In the production workflow we are using the github release to trigger the deployment. This way the app remains in
+In the production workflow, we are using the github release to trigger the deployment. This way the app remains in
 similar state
 as the latest staging deployment due to the same git branch.
 
-For `workflow_dispatch` we are allowing to specify the version of the app to deploy. This is useful when we want to
-rollback to a previous version.
+For `workflow_dispatch` we allow to specify the app version to deploy. This is useful when we want to roll back to a previous version.
 
 ### Temporary environments
 
-Sometimes 2 environments are not enough. We have several use-cases for temporary environments:
+Sometimes 2 environments are not enough. We have several use cases for temporary environments:
 
 - major features that require a separate environment for testing and verification with the client
-- hotfixes that need to be deployed to production asap
+- hotfixes that need to be deployed to production ASAP
 
-There are several examples I can give to explain the use-cases of the above-mentioned ideas.
+There are several examples I can give to explain the use cases of the above-mentioned ideas.
 
 Imagine you decided to change the colour palette of the application, before rolling it out to the customers, you want to
 have the verification from the client that these are the correct colours. We could wrap it up in feature flags, push to
-prod and enable for the client, or you could just give a proper name to your branch, push and voila, it's up and
-running. Grab the url and send to the stakeholders.
+prod and enable it for the client, or you could just give a proper name to your branch, push and voila, it's up and
+running. Grab the url and send it to the stakeholders.
 
 Another use case – a critical bug in prod and your staging is not yet ready to be published. Yeah, I know, in the ideal
 world your staging should always be ready, but let's be honest, shit happens. So, it's either we
@@ -405,7 +401,7 @@ rollback the master to the previous tag, merge the fix and then move the staging
 latest release for a branch named `hotfix/<my-fix-name>`, fix the issue, push the changes, verify and create a GitHub
 release on this hotfix branch.
 
-The prod is fixed, everyone is saved, now we can merge our hotfix to master and continue working on other problems.
+The prod is fixed, and everyone is saved. Now we can merge our hotfix to master and continue working on other problems.
 
 These workflows are not meant to be used every day, they are created to help in specific situations.
 
@@ -481,7 +477,7 @@ jobs:
           project_id: ${{ vars.GCP_PROJECT_ID }}
           app_yaml_path: ${{ steps.feature.outputs.feature_name }}.yml
 
-      # get the service name and url for better workflow summary
+      # get the service name and url for a better workflow summary
       - name: Set metadata
         id: service_metadata
         run: |
@@ -510,7 +506,7 @@ on:
       - hotfix/*
 ```
 
-Means that we are going to create a temporary environment only when the branches with prefixes `major` and `hotfix` are
+This means that we are going to create a temporary environment only when the branches with prefixes `major` and `hotfix` are
 pushed.
 
 ```
@@ -524,7 +520,7 @@ pushed.
 This step will create a feature name based on the branch. You can check this workflow on
 GitHub [Panenco/git-flow/feature](https://github.com/Panenco/git-flow/tree/master/feature/action.yml)
 
-Basically, if your branch is `major/calendar` the feature name would be `major-calendar`
+If your branch is `major/calendar` the feature name would be `major-calendar`
 
 ```
  - name: Generate app engine config
@@ -558,9 +554,9 @@ previous step generated
 
 These steps create a nice summary of the created App Engine service
 
-Now, it's important to cleanup those environments after the branch is removed.
+Now, it's important to clean up those environments after the branch is removed.
 
-for that we will create the cleanup workflow
+for that, we will create the cleanup workflow
 
 ```shell
 touch ./.github/workflows/temp-env-cleanup.yml
@@ -627,9 +623,9 @@ all the heavy lifting for us, we just need to pass the arguments
 
 ## Summary
 
-Overall, these pipelines simplify the whole workflow if you use the GCP App Engine for your apps. Of course, in the
-real-world apps you may have some extra steps like secrets pulling, sentry integration, etc. But the idea remains the
-same, you have 1 long-living master branch and bunch of short-lived feature branches. The master branch is used for both
+Overall, these pipelines simplify the whole workflow if you use the GCP App Engine for your apps. Of course, in
+real-world apps, you may have some extra steps like secrets pulling, sentry integration, etc. But the idea remains the
+same, you have 1 long-living master branch and a bunch of short-lived feature branches. The master branch is used for both
 staging and production deployments and whenever there is a need, you can easily boot up a temporary environment.
 
 The example repo can be found on GitHub
