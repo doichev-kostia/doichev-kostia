@@ -11,6 +11,10 @@ import BlogCard from "../components/BlogCard.astro";
 const posts = await getCollection("blog", ({ data }) => {
 	return import.meta.env.PROD ? data.draft !== true : true;
 });
+
+const sortByDate = (a, b) => {
+	return new Date(b.data.publishedAt) - new Date(a.data.publishedAt);
+};
 ---
 
 <Layout>
@@ -41,7 +45,7 @@ const posts = await getCollection("blog", ({ data }) => {
 	</header>
 	<section class="container">
 		<ul class="flex flex-col gap-5">
-			{posts.map((post) => (
+			{posts.sort(sortByDate).map((post) => (
 				<li>
 					<BlogCard
 						slug={post.slug}
