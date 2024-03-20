@@ -105,6 +105,12 @@ printf "Generating %s\n" "$filename"
 sed "s/{{service}}/$service_name/g" "$template" > "$filename"
 ```
 
+Note: 
+
+1. The script uses GNU sed to replace the service name in the template file. If you are using macOS, you may need to install it via brew.
+2. You need to update the executable permissions for the script `chmod +x .github/actions/app-engine-config/generate-config.sh`
+3. Git `git update-index --chmod=+x .github/actions/app-engine-config/generate-config.sh`
+
 Lastly, we need to create a re-usable GitHub action that will use the utility script to generate the app engine config
 file.
 
