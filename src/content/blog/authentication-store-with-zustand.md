@@ -136,7 +136,7 @@ const authStore = createStore<AuthStore>()(
 			refreshToken: undefined,
 
 			actions: {
-				setAcccessToken: (accessToken: string | undefined) => {
+				setAccessToken: (accessToken: string | undefined) => {
 					const accessTokenData = (() => {
 						try {
 							return accessToken ? decodeAccessToken(accessToken) : undefined;
@@ -293,4 +293,4 @@ const Components = () => {
 }
 ```
 
-
+https://github.com/doichev-kostia/zustand-auth-store/blob/master/src/auth-store.ts
