@@ -1,7 +1,7 @@
 ---
 title: "Authentication store with zustand"
 summary: "How to build an authentication store with zustand"
-publishedAt: "2023-03-12"
+publishTime: "2023-03-12"
 minutesToRead: 6
 ---
 

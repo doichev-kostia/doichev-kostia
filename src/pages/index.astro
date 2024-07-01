@@ -13,7 +13,7 @@ const posts = await getCollection("blog", ({ data }) => {
 });
 
 const sortByDate = (a, b) => {
-	return new Date(b.data.publishedAt) - new Date(a.data.publishedAt);
+	return new Date(b.data.publishTime) - new Date(a.data.publishTime);
 };
 ---
 
@@ -51,7 +51,7 @@ const sortByDate = (a, b) => {
 						slug={post.slug}
 						title={post.data.title}
 						summary={post.data.summary}
-						publishedAt={post.data.publishedAt}
+						publishedAt={post.data.publishTime}
 						minutesToRead={post.data.minutesToRead}
 					/>
 				</li>

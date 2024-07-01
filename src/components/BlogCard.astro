@@ -5,13 +5,13 @@ type Props = {
 	title: string;
 	summary: string;
 	minutesToRead: number;
-	publishedAt: Date;
+	publishTime: Date;
 };
 
-const { slug, title, publishedAt, summary, minutesToRead } = Astro.props as Props;
+const { slug, title, publishTime, summary, minutesToRead } = Astro.props as Props;
 const formatter = new Intl.DateTimeFormat("en-GB");
 const date = formatter
-	.format(publishedAt) // returns a string in the format "dd/MM/yyyy"
+	.format(publishTime) // returns a string in the format "dd/MM/yyyy"
 	.replaceAll("/", ".");
 ---
 

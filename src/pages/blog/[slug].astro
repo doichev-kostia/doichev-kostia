@@ -28,7 +28,7 @@ const { data } = post;
 const { Content } = await post.render();
 const formatter = new Intl.DateTimeFormat("en-GB");
 const date = formatter
-	.format(data.publishedAt) // returns a string in the format "dd/MM/yyyy"
+	.format(data.publishTime) // returns a string in the format "dd/MM/yyyy"
 	.replaceAll("/", ".");
 ---
 

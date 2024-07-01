@@ -1,7 +1,7 @@
 ---
 title: "Frontend Application Version Management"
 summary: "How to manage versions in your typical SPA"
-publishedAt: "2024-01-09"
+publishTime: "2024-01-09"
 minutesToRead: 5
 ---
 
