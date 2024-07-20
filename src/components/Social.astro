@@ -5,6 +5,6 @@ type Props = HTMLAttributes<"a">;
 const { href, title, ...rest } = Astro.props as Props;
 ---
 
-<a href={href} title={title} rel="noreferrer" {...rest}>
+<a href={href} title={title} rel="noreferrer" target="_blank" {...rest}>
 	<slot />
 </a>
