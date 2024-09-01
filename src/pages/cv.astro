@@ -3,6 +3,8 @@ import "@/global.css";
 import HeadCommon from "../components/HeadCommon.astro";
 import ProfileImage from "../assets/profile-picture.png";
 import { Image } from "astro:assets";
+
+const ogImage = new URL(ProfileImage.src, Astro.site)
 ---
 
 <html dir="ltr" lang="en">
@@ -10,7 +12,7 @@ import { Image } from "astro:assets";
 	<HeadCommon
 		title={"CV"}
 		image={{
-			src: ProfileImage.src,
+			src: ogImage.href,
 			alt: "profile image",
 		}}
 		description="Kostiantyn Doichev's CV"
@@ -38,10 +40,10 @@ import { Image } from "astro:assets";
 				decisions that meet business needs and allow for progress.
 				Additionally, I realized, that the value of the software engineer is not in being the React Andy
 				and knowing only one tool,
-				but being able to figure stuff out even in the environment where you have never been before.
-				This includes taking on different roles within a project, leading a team, engage with the customers,
+				but being able to figure stuff out even in an environment where you have never been before.
+				This includes taking on different roles within a project, leading a team, engaging with the customers,
 				knowing when to be the flag carrier and making a decision, instead of having hours of
-				discussions and landing on a unsatisfying compromise.
+				discussions and landing on an unsatisfying compromise.
 				<br>
 				<br>
 				My core value as an engineer is that I <strong>solve</strong> problems, no matter what they are.
