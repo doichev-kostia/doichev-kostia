@@ -13,18 +13,15 @@ minutesToRead: 6
 /* https://jsr.io/@std/fmt */
 import { sprintf } from "@std/fmt/printf";
 
-function Sprintf(pattern: string, ...args: unknown[]): string {
-  return sprintf(pattern, args);
-}
+export module fmt {
+  export function Sprintf(pattern: string, ...args: unknown[]): string {
+    return sprintf(pattern, args);
+  }
 
-function Errorf(pattern: string, ...args: unknown[]): Error {
-  return new Error(Sprintf(pattern, args));
+  export function Errorf(pattern: string, ...args: unknown[]): Error {
+    return new Error(Sprintf(pattern, args));
+  }
 }
-
-export const fmt = {
-  Sprintf,
-  Errorf,
-};
 ```
 
 String interpolation is a very powerful feature. However, I sometimes find it too difficult to read.
