@@ -45,6 +45,12 @@ export CLOUDSDK_ACTIVE_CONFIG_NAME=<project_name>
 export GOOGLE_PROJECT=<project_id>
 ```
 
+if you prefer storing those variables in the `.env` file, then the `.envrc` should have the following content:
+```shell
+# .envrc
+dotenv
+```
+
 To automatically load the env vars into the shell when opening the project directory, run
 ```shell
 direnv allow
