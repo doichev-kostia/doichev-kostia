@@ -62,7 +62,8 @@ With time I will re-visit this list and re-evaluate the items.
 - [ts-pattern](https://github.com/gvergnaud/ts-pattern) - pattern matching as switch/case is horrible in JS
 - [pino](https://github.com/pinojs/pino) - great logger
 - [nanoid](https://github.com/ai/nanoid) - great URL safe id generator especially in combination with ideas from unkey.dev article - [The UX of UUIDs](https://www.unkey.com/blog/uuid-ux)
-- [cuid2](https://github.com/paralleldrive/cuid2) - still trying this one out. TODO: write an opinion
+- [@std/ulid](https://jsr.io/@std/ulid) - ULID from Deno stdlib that works in any popular JS runtime
+- [@std/assert](https://jsr.io/@std/assert) - assertions
 
 ### Validation
 
