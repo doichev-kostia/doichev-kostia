@@ -74,7 +74,7 @@ export const LoadCommand = fn(z.object({
   db: z.custom<BunSQLiteDatabase<any>>(),
   kv: z.custom<KV>(),
 }), async (input) => {
-  const { kv, cfClearance, db, logger } = input;
+  const { kv, db, logger } = input;
   /* ... */
 });
 ```
