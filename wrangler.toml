@@ -1,0 +1,14 @@
+name = "doichev-kostia"
+main = "./packages/www/dist/_worker.js/index.js"
+compatibility_date = "2024-11-12"
+compatibility_flags = ["nodejs_compat"]
+
+assets = { directory = "./packages/www/dist", binding = "ASSETS" }
+browser = { binding = "BROWSER" }
+
+# Workers Logs
+# Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+# Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
+[observability]
+enabled = true
+

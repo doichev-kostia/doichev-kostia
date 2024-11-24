@@ -1,5 +1,5 @@
 ---
-import Layout from "@/layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro";
 import Social from "../components/Social.astro";
 import X from "../icons/X.astro";
 import GitHub from "../icons/GitHub.astro";
@@ -7,6 +7,8 @@ import LinkedIn from "../icons/LinkedIn.astro";
 import Typography from "../components/Typography.astro";
 import { getCollection } from "astro:content";
 import BlogCard from "../components/BlogCard.astro";
+
+export const prerender = true;
 
 const posts = await getCollection("blog", ({ data }) => {
 	return import.meta.env.PROD ? data.draft !== true : true;
