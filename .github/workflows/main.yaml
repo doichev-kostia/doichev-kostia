@@ -25,9 +25,8 @@ jobs:
       - run: bun run build
 
       - name: Publish
-        uses: cloudflare/wrangler-action@main
+        uses: cloudflare/wrangler-action@v3.12.1
         with:
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           packageManager: bun
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
