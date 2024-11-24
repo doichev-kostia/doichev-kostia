@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "bun --filter=./packages/www run build"
+		"build": "wrangler types && bun --filter=./packages/www run build"
 	},
 	"workspaces": [
 		"./packages/**"
