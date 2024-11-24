@@ -1,0 +1,15 @@
+{
+	"extends": "astro/tsconfigs/strictest",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"src/*"
+			]
+		}
+	},
+	"include": [
+		"./src/**/*.ts",
+		"../../worker-configuration.d.ts"
+	]
+}

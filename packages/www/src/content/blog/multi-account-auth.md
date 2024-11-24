@@ -24,15 +24,15 @@ I haven't implemented a real-world app with this concept, but I had some sandbox
 ## Model
 
 We start with basics: a human can have multiple accounts
-![One-to-Many relation between a person and accounts](./assets/person-account-relation.png)
+![One-to-Many relation between a person and accounts](assets/person-account-relation.png)
 
 As we have specs like OIDC (OpenID Connect) and OAuth, each account should have multiple identifiers
-![One-to-Many relation between an account and identifiers](./assets/account-identifier-relation.png)
+![One-to-Many relation between an account and identifiers](assets/account-identifier-relation.png)
 
 An account can have a google oauth together with a basic email-password auth. It's weird, but possible
 
 Lastly, the relation between the account and workspaces is bridged via memberships
-![One-to-Many relation between an account and memberships and Many-to-One relation between memberships and workspace](./assets/account-workspace-relation.png)
+![One-to-Many relation between an account and memberships and Many-to-One relation between memberships and workspace](assets/account-workspace-relation.png)
 
 The precise data schema depends on your business needs.
 

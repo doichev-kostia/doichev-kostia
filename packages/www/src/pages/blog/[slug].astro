@@ -1,7 +1,9 @@
 ---
-import Layout from "@/layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 import Typography from "../../components/Typography.astro";
+
+export const prerender = true;
 
 type Params = {
 	slug: string;

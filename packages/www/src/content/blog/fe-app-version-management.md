@@ -38,7 +38,7 @@ where the bug was present and refresh the page. As you may guess, that's not the
 To solve this problem, we need to somehow track the version of the FE app deployed and signal to the old apps that they
 need to refresh the page.
 
-![FE app version management](./assets/fe-version-management.png)
+![FE app version management](assets/fe-version-management.png)
 
 The solution I came up with is the following – we need to have a config key in the BE that will contain the newest version of
 the app. The BE will return that key in the response headers, something like `x-app-version: 0.0.1` and based on that

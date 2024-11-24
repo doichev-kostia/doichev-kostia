@@ -1,33 +1,16 @@
 {
-  "name": "website",
-  "private": true,
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "prettier": "prettier --write ."
-  },
-  "dependencies": {
-    "@astrojs/rss": "^4.0.9",
-    "@astrojs/sitemap": "^3.0.3",
-    "@astrojs/tailwind": "^5.0.3",
-    "astro": "^4.0.6",
-    "class-variance-authority": "^0.7.0",
-    "classnames": "^2.3.2",
-    "markdown-it": "^14.1.0",
-    "sanitize-html": "^2.13.1",
-    "tailwind-merge": "^1.14.0",
-    "tailwindcss": "^3.3.3",
-    "zod": "^3.22.2"
-  },
-  "devDependencies": {
-    "@tailwindcss/typography": "^0.5.10",
-    "prettier": "^3.0.3",
-    "prettier-plugin-astro": "^0.12.0",
-    "sharp": "^0.33.4"
-  }
+	"name": "doichev-kostia",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "bun --filter=./packages/www run build"
+	},
+	"workspaces": [
+		"./packages/**"
+	],
+	"devDependencies": {
+		"prettier": "^3.0.3",
+		"prettier-plugin-astro": "^0.12.0",
+		"wrangler": "^3.90.0"
+	}
 }

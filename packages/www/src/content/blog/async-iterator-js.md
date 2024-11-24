@@ -39,7 +39,7 @@ const iterable = toIterable(({page}) => listItems({total, perPage, page}), {
 
 Now, in JavaScript due to the coloring ([article](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/))
 we have [Synchronous](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators) and [Asynchronous](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator) iterators. 
-![JavaScript function coloring](./assets/async-colored-functions.png)
+![JavaScript function coloring](assets/async-colored-functions.png)
 
 
 So, how would you create an iterable out of a paginated response? Well, let's start coding.
