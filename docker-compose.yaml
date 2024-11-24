@@ -1,0 +1,42 @@
+services:
+    # rss reader
+    # http://127.0.0.1:6718
+    # local rss: http://host.docker.internal:4321/rss.xml
+    miniflux:
+        image: miniflux/miniflux:latest
+        networks:
+            - miniflux_network
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        ports:
+            - "6718:8080"
+        depends_on:
+            db:
+                condition: service_healthy
+        environment:
+            - DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable
+            - RUN_MIGRATIONS=1
+            - CREATE_ADMIN=1
+            - ADMIN_USERNAME=admin
+            - ADMIN_PASSWORD=12345678
+    db:
+        image: postgres:17-alpine
+        networks:
+            - miniflux_network
+        environment:
+            - POSTGRES_USER=miniflux
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_DB=miniflux
+        volumes:
+            - miniflux-db:/var/lib/postgresql/data
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-U", "miniflux" ]
+            interval: 10s
+            start_period: 30s
+
+volumes:
+    miniflux-db:
+
+networks:
+    miniflux_network:
+        driver: bridge

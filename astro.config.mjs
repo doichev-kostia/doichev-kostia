@@ -13,6 +13,9 @@ export default defineConfig({
 	image: {
 		service: sharpImageService(),
 	},
+	server: {
+		host: "0.0.0.0"
+	},
 	markdown: {
 		shikiConfig: {
 			experimentalThemes: {

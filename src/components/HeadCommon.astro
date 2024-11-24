@@ -52,7 +52,7 @@ const twitter = {
 	locale,
 	...Astro.props.twitter,
 } satisfies Twitter;
-const twitterHandle = "doichev_kostia"
+const twitterHandle = "doichev_kostia";
 
 /**
  * Enforce some standard canonical URL formatting across the site.
@@ -68,34 +68,45 @@ function formatCanonicalURL(url: string | URL) {
 	return path.replace(/\/?$/, hasQueryParams ? "" : "/");
 }
 ---
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
 <title>{websiteTitle}</title>
 {canonicalURL &&
-<link rel="canonical" href={formatCanonicalURL(canonicalURL)}/>}
-<meta name="theme-color" content="#0F172A"/>
+<link rel="canonical" href={formatCanonicalURL(canonicalURL)} />}
+<meta name="theme-color" content="#0F172A" />
 
-<meta name="generator" content={Astro.generator}/>
+<meta name="generator" content={Astro.generator} />
 
-<meta name="description" content={description}/>
+<meta name="description" content={description} />
 
-<meta property="og:title" content={og.title}/>
-<meta property="og:type" content={og.type}/>
+<meta property="og:title" content={og.title} />
+<meta property="og:type" content={og.type} />
 
 {og.canonicalURL &&
-<meta property="og:url" content={formatCanonicalURL(og.canonicalURL)}/>}
-<meta property="og:locale" content={og.locale}/>
-<meta property="og:description" content={og.description}/>
-<meta property="og:site_name" content={siteinfo.title}/>
+<meta property="og:url" content={formatCanonicalURL(og.canonicalURL)} />}
+<meta property="og:locale" content={og.locale} />
+<meta property="og:description" content={og.description} />
+<meta property="og:site_name" content={siteinfo.title} />
 
-{og.image && <meta property="og:image" content={og.image.src} />}
-{og.image && <meta property="og:image:alt" content={og.image.alt} />}
+{og.image &&
+<meta property="og:image" content={og.image.src} />}
+{og.image &&
+<meta property="og:image:alt" content={og.image.alt} />}
 
-{twitter.card && <meta name="twitter:card" content={twitter.card} />}
+{twitter.card &&
+<meta name="twitter:card" content={twitter.card} />}
 <meta name="twitter:site" content={twitterHandle} />
 
 <meta name="twitter:title" content={twitter.title} />
 <meta name="twitter:description" content={twitter.description} />
-{twitter.image && <meta name="twitter:image" content={twitter.image.src} />}
-{twitter.image && <meta name="twitter:image:alt" content={twitter.image.alt} />}
+{twitter.image &&
+<meta name="twitter:image" content={twitter.image.src} />}
+{twitter.image &&
+<meta name="twitter:image:alt" content={twitter.image.alt} />}
 
+<link
+	rel="alternate"
+	type="application/rss+xml"
+	title={websiteTitle}
+	href={new URL("rss.xml", Astro.site)}
+/>

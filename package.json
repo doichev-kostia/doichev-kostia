@@ -12,11 +12,14 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.0.3",
     "@astrojs/tailwind": "^5.0.3",
     "astro": "^4.0.6",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.3.2",
+    "markdown-it": "^14.1.0",
+    "sanitize-html": "^2.13.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.3.3",
     "zod": "^3.22.2"
