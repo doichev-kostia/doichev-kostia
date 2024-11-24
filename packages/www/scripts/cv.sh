@@ -55,7 +55,7 @@ while ! check_server $port; do
 done
 
 echo "Server is ready, generating PDF..."
-if ! node ./scripts/create-pdf.mjs --output "./public/cv.pdf" --url "http://localhost:$port/cv"; then
+if ! node ./scripts/create-pdf.mjs --output "./public/doichev-kostiantyn-full-stack.pdf" --url "http://localhost:$port/cv"; then
     echo "Error: PDF generation failed"
     exit 1
 fi
