@@ -6,7 +6,7 @@
     "build": "bun --filter=./packages/www run build && wrangler types"
   },
   "workspaces": [
-    "./packages/**"
+    "./packages/*"
   ],
   "devDependencies": {
     "@cloudflare/workers-types": "4.20241205.0",
