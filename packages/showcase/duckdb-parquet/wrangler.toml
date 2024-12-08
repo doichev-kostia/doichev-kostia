@@ -1,0 +1,18 @@
+workers_dev = false
+name = "duckdb-parquet-showcase"
+compatibility_date = "2024-11-18"
+compatibility_flags = ["nodejs_compat"]
+main = "./build/server/index.js"
+assets = { directory = "./build/client/" }
+
+routes = [
+	{ pattern = "duckdbparquet.showcase.doichevkostia.dev", custom_domain = true }
+]
+
+kv_namespaces = [
+	{ binding = "kv", id = "7485b6d308f543ed8fb5c587aaec4665" },
+]
+
+r2_buckets = [
+	{ binding = "dump", bucket_name = "doichev-kostia-doichev-kostia-dumpbucket" }
+]

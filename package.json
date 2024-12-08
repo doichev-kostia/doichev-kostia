@@ -1,16 +1,20 @@
 {
-	"name": "doichev-kostia",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"build": "bun --filter=./packages/www run build && wrangler types"
-	},
-	"workspaces": [
-		"./packages/**"
-	],
-	"devDependencies": {
-		"prettier": "^3.0.3",
-		"prettier-plugin-astro": "^0.12.0",
-		"wrangler": "^3.90.0"
-	}
+  "name": "doichev-kostia",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun --filter=./packages/www run build && wrangler types"
+  },
+  "workspaces": [
+    "./packages/**"
+  ],
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20241205.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0",
+    "wrangler": "^3.90.0"
+  },
+  "dependencies": {
+    "sst": "3.3.59"
+  }
 }
