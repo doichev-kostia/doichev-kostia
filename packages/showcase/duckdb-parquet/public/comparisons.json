@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cmp_01JEJKGD8R25VKQRM4RYAATMYC",
+    "name": "Comparison 500",
+    "status": "completed",
+    "comparisonFileObject": "showcase/duckdb-parquet/comparison_data_500.parquet"
+  },
+  {
+    "id": "cmp_01JEJKGD8R7ZTR8QNAEB7NB7ZT",
+    "name": "Comparison 1K",
+    "status": "completed",
+    "comparisonFileObject": "showcase/duckdb-parquet/comparison_data_1K.parquet"
+  },
+  {
+    "id": "cmp_01JEJKGD8R4B4JTFPCMWJN63KV",
+    "name": "Comparison 5K",
+    "status": "completed",
+    "comparisonFileObject": "showcase/duckdb-parquet/comparison_data_5K.parquet"
+  },
+  {
+    "id": "cmp_01JEJKGD8RBJ9N1GNX36VY8ZG5",
+    "name": "Comparison 10K",
+    "status": "completed",
+    "comparisonFileObject": "showcase/duckdb-parquet/comparison_data_10K.parquet"
+  },
+  {
+    "id": "cmp_01JEJKGD8RZ6DXWKJR7F2M0G6N",
+    "name": "Comparison 25K",
+    "status": "completed",
+    "comparisonFileObject": "showcase/duckdb-parquet/comparison_data_25K.parquet"
+  }
+]
