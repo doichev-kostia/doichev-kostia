@@ -1,10 +1,17 @@
 ---
-layout: "../layouts/Notes.astro"
+layout: "../../layouts/Notes.astro"
 title: Dump of things I want to explore
 ---
 
 To Explore:
 
+- https://github.com/typicode/mistcss for reusable components using CSS, instead of making them via React/Svelte/Solid. But for all the other styles use tailwing
+- https://buildpacks.io/ converts the app into the OCI image
+- https://www.cloudskillsboost.google/paths
+- drizzle studio for the preview of the parquet files
+- mount sqlite replica to the cloudrun NFS (network file system) https://cloud.google.com/run/docs/overview/what-is-cloud-run#container-filesystem
+- Remix trello clone: (https://github.com/remix-run/example-trellix); react query (https://github.com/TkDodo/trellix-query); offline (https://github.com/obedm503/trellix-offline)
+- Epic stack from Kent C. Dodds https://github.com/epicweb-dev/epic-stack
 - remix starter kit https://github.com/dev-xo/remix-saas/tree/main
 - Low level stuff https://www.rfleury.com/
 - Article https://www.rfleury.com/p/programmers-are-users-bad-performance
@@ -161,7 +168,3 @@ auth https://x.com/flybayer/status/1796535818028478610?s=46&t=egw71Z0G62aAUkAz9A
 - LMDB database
 - https://samwho.dev/load-balancing/
 - ❌[Groq](https://groq.com/) for AI
-
-
-
-
