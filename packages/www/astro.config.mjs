@@ -21,8 +21,8 @@ export default defineConfig({
 
 	markdown: {
 		shikiConfig: {
-			experimentalThemes: {
-				light: "github-light",
+			theme: {
+				light: "rose-pine",
 			},
 		},
 	},
