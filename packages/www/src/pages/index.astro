@@ -1,10 +1,10 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import Social from "../components/Social.astro";
 import X from "../icons/X.astro";
 import GitHub from "../icons/GitHub.astro";
 import LinkedIn from "../icons/LinkedIn.astro";
-import Typography from "../components/Typography.astro";
 import { getCollection } from "astro:content";
 import BlogCard from "../components/BlogCard.astro";
 
@@ -14,7 +14,7 @@ const posts = await getCollection("blog", ({ data }) => {
 	return import.meta.env.PROD ? data.draft !== true : true;
 });
 
-const sortByDate = (a, b) => {
+const sortByDate = (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) => {
 	return new Date(b.data.publishTime) - new Date(a.data.publishTime);
 };
 ---
@@ -22,9 +22,9 @@ const sortByDate = (a, b) => {
 <Layout>
 	<header class="pt-5 pb-10 container">
 		<div class="flex flex-col md:flex-row md:justify-between md:items-center mb-5">
-			<Typography component="h1" class="text-3xl mb-3 md:mb-0">
+			<h1 class="text-3xl mb-3 md:mb-0">
 				Kostia Doichev
-			</Typography>
+			</h1>
 			<ul class="flex gap-4 text-2xl transition-colors">
 				<li>
 					<Social href="https://twitter.com/doichev_kostia" title="X account">
@@ -43,14 +43,14 @@ const sortByDate = (a, b) => {
 				</li>
 			</ul>
 		</div>
-		<Typography component="p">I build things</Typography>
+		<p>I build things</p>
 	</header>
 	<section class="container">
 		<ul class="flex flex-col gap-5">
 			{posts.sort(sortByDate).map((post) => (
 				<li>
 					<BlogCard
-						slug={post.slug}
+						id={post.id}
 						title={post.data.title}
 						summary={post.data.summary}
 						publishTime={post.data.publishTime}

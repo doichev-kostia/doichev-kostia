@@ -1,11 +1,10 @@
 ---
 title: "Achievements | Explorations"
-layout: "../layouts/Markdown.astro"
+layout: "../../layouts/Markdown.astro"
 ---
-
-[//]: # (import { Image } from 'astro:assets';)
-
-[//]: # (import blogstats2024 from "@/assets/achievements/2024-blog-stats-december.png";)
+import { Image } from 'astro:assets';
+import blogstats2024 from "./assets/2024-blog-stats-december.png";
+export const prerender = true;
 
 # Achievements | Explorations
 
@@ -19,7 +18,7 @@ Some names can be masked for the sake of privacy
 https://doichevkostia.dev/
 Added a couple of articles and showcase with examples
 
-[//]: # (<Image src={blogstats2024} alt="blog stats in December 2024"/>)
+<Image src={blogstats2024} alt="blog stats in December 2024" width={500}/>
 
 ### Git skills improvements
 I bought some courses and invested some time in improving my git skills to feel more confident and maintain better history structure in the repository.
@@ -98,7 +97,7 @@ https://gist.github.com/doichev-kostia/cfebe6d907b9a22cf0f3a962cbfda88e
 
 ### Private packages distribution via GCP Artifact Registry (April)
 For the work project's (CK) communication service I generated the OpenAPI client and web socket client.
-However, those were local to ‘<project_name>-com’ repo and needed to be distributed to <project_name>-api and <project_name>-app repositories.
+However, those were local to `<project_name>-com` repo and needed to be distributed to `<project_name>-api` and `<project_name>-app` repositories.
 The best way I found was using Google Cloud Artifact Registry that has a private npm registry option for a specific project. This way it’s a secure distribution only among the project members
 
 ### AsyncLocalStorage (April)

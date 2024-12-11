@@ -2,14 +2,15 @@
 	"extends": "astro/tsconfigs/strictest",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"paths": {
-			"@/*": [
+    "verbatimModuleSyntax": true,
+    "paths": {
+			"~/*": [
 				"src/*"
 			]
 		}
 	},
 	"include": [
 		"./src/**/*.ts",
-		"../../worker-configuration.d.ts"
+    ".astro/types.d.ts",
 	]
 }

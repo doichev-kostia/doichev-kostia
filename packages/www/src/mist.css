@@ -1,0 +1,43 @@
+/* waiting for tailwind v4 with css vars */
+button, a[data-component='button'] {
+	@apply inline-flex font-mono items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+
+	&:not([data-variant]) {
+		@apply bg-primary text-primary-foreground hover:bg-primary/90
+	}
+
+	&[data-variant='destructive'] {
+		@apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+	}
+	&[data-variant='outline'] {
+		@apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+	}
+	&[data-variant='secondary'] {
+		@apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+	}
+
+	&[data-variant='ghost'] {
+		@apply hover:bg-accent hover:text-accent-foreground;
+	}
+
+	&[data-variant='link'] {
+		@apply text-primary underline-offset-4 hover:underline;
+	}
+
+	&:not([data-size]) {
+		@apply h-10 px-4 py-2;
+	}
+
+	&[data-size='sm'] {
+		@apply h-9 rounded-md px-3;
+	}
+
+	&[data-size='lg'] {
+		@apply h-11 rounded-md px-8;
+	}
+
+	&[data-size='icon'] {
+		@apply h-10 w-10;
+	}
+}
+
