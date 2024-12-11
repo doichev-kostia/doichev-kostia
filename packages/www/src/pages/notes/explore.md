@@ -1,5 +1,5 @@
 ---
-layout: "../../layouts/Notes.astro"
+layout: "../../layouts/Markdown.astro"
 title: Dump of things I want to explore
 ---
 

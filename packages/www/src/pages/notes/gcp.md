@@ -1,10 +1,48 @@
 ---
-layout: "../../layouts/Notes.astro"
+layout: "../../layouts/Markdown.astro"
 title: GCP notes
 ---
 
 # GCP 
 
+### VM & Container
+No-one is buying a 2vCPU machine specifically for you. The cloud providers buy beasts with 64 CPU cores (128 vCPU), 512 MB RAM, 2 TB SSD, but then
+they create a virual machine (VMware, KVM) that has only the resources you paid for. So, one physical machine, runs several virtual machines.
+
+The "virtual" comes from
+- Hardware Virtualization
+  - Physical resources are shared and partitioned
+  - Each VM thinks it's running on its own dedicated hardware
+  - The Hypervisor (software like VMware or KVM) manages this illusion
+
+- Resource Management
+  - CPU time is scheduled
+  - Memory is partitioned
+  - Storage is allocated
+  - Network is shared
+
+Containers run on top of VMs
+```plaintext
+Physical Server Hardware
+└── Hypervisor (VMware, KVM)
+    └── Virtual Machines
+        └── Operating System
+            └── Container Runtime (Docker, containerd)
+                └── Containers
+```
+
+Key differences between VMs and containers:
+
+VMs virtualize the hardware
+- Each VM has its own full OS
+- Heavy isolation through hypervisor
+- More resource overhead
+
+Containers virtualize the OS layer
+- Share the host OS kernel
+- Lightweight isolation through Linux namespaces
+- Less resource overhead
+- Start up much faster
 
 ### CPU
 
@@ -58,6 +96,7 @@ at which point Cloud Run sends a __SIGKILL__ signal.
 
 #### Job
 Job must exit with status code "0" to be "successful".
+Can schedule up to 10K tasks that can be executed in parallel for one job. 
 
 #### Testing
 
@@ -87,6 +126,37 @@ The env variables are for configurations, not for secrets. For secrets it's reco
 I can create a proxy Cloudflare worker that will handle the caching/CDN and DDOS protection. I will assign a custom domain, let's say `api.example.com` to it,
 then I will create an Application Load Balancer that will handle the internal routing of all my GCP infrastructure.
 
+User -> Cloudflare Workers -> Application Load Balancer -> Cloud Run
+
+I can add firewall protection rules to the load balancer to only allow traffic from Cloudflare IPs.
+
+The load balancer needs some rules to know where to redirect the traffic to. It can be host, path, header or any other rule.
+
+A very simple example would be
+```typescript
+async function route(request: Request) {
+  const host = request.headers.get("host");
+  let backend: string;
+  
+  if (host.startsWith("api.")) {
+    backend = "10.0.1.1";
+  } else if (host.startsWith("auth.")) {
+    backend = "10.0.1.2";
+  }
+
+  const response = await fetch(`http://${backend}`, {
+    method: request.method,
+    headers: request.headers,
+    body: request.body,
+    // Preserve original request properties
+  });
+
+  return new Response(response.body, {
+    status: response.status,
+    headers: response.headers
+  });
+}
+```
 
 ### Pulumi
 You can wait for resource provisioning/execution with `time.index.Sleep` from `@pulumi/time`.
@@ -118,3 +188,127 @@ const _default = new gcp.cloudrunv2.Service("default", {
     dependsOn: [waitForMesh],
 });
 ```
+
+If some config needs to be mounted, you can create a bucket object in pulumi 
+```ts
+import * as pulumi from "@pulumi/pulumi";
+import * as gcp from "@pulumi/gcp";
+
+const ngnixConfig = new gcp.storage.BucketObject("WebNginxConfig", {
+    name: "fe/nginx/conf.d",
+    source: new pulumi.asset.FileAsset("./nginx/conf.d"),
+    bucket: "<my_bucket>",
+});
+
+const www = new gcp.cloudrunv2.Service("StaticWebsite", {
+  name: "website",
+  template: {
+    containers: [{
+      image: "nginx",
+      volumeMounts: [{
+        name: "bucket",
+        mountPath: "/var/www",
+      }, {
+        name: "config",
+        mountPath: "/etc/nginx/conf.d",
+      }],
+    }],
+    volumes: [{
+      name: "bucket",
+      gcs: {
+        bucket: bucket.name,
+        readOnly: false,
+      },
+    }, {
+      name: "config",
+      gcs: {
+        bucket: ngnixConfig.bucket,
+        object: ngnixConfig.name,
+        readOnly: true,
+      },
+    }],
+  }
+})
+```
+
+
+### Networking
+IPv4 192.168.1.1 (32 bits, 4 bytes)
+IPv6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334 (128 bits, 16 bytes)
+
+IPv4 - each segment is a byte (0 - 255)
+IPv6 - each segment is 16 bits (2 bytes), and it's written in hexadecimal
+Some special cases (IPv4):
+
+0.0.0.0 | :: - typically means "any address" or unassigned
+127.0.0.1 ::1 - localhost (your own machine)
+192.168.x.x - typically used for private networks
+10.x.x.x - also used for private networks
+224.0.0.0/4 | ff00::/8 - multicast
+255.255.255.255 - broadcast address
+
+Subnets are chunks of your network
+
+```plaintext
+VPC (10.0.0.0/16)
+├── Subnet A (10.0.1.0/24) - 256 addresses
+│   ├── 10.0.1.1 - Database
+│   ├── 10.0.1.2 - Auth Service
+│   └── ... (up to 10.0.1.255)
+└── Subnet B (10.0.2.0/24) - 256 addresses
+    ├── 10.0.2.1 - API Server
+    └── ... (up to 10.0.2.255)
+```
+
+the `/24` is __CIDR__ notation (Classless Inter-Domain Routing) means the first 24 bits of the IP address are fixed for the network, and the last 8 bits can vary for individual hosts
+
+Example:
+192.168.1.0/24
+First 24 bits (first 3 bytes) define the network
+Last 8 bits (last byte) can be used for hosts
+Network part: 192.168.1
+Hosts can be 0-255
+
+So a /24 gives you 256 possible addresses (though typically 254 usable as .0 and .255 are reserved).
+```plaintext
+192.168.1.0   (network address)
+192.168.1.1   (first usable)
+192.168.1.2
+...
+192.168.1.254
+192.168.1.255 (broadcast address)
+```
+
+For internal subnets IPv4 is sufficient enough (10.0.0.0/8) gives you 16.7 million addresses
+
+#### NAT
+NAT (Network Address Translation) is like a mail forwarding service for IP addresses
+```plaintext
+Private Network (10.0.0.0/8)           Internet
+├── Device A (10.0.1.1) ─┐            
+├── Device B (10.0.1.2) ─┼─→ NAT Gateway (34.xx.xx.xx) ─→ Internet
+└── Device C (10.0.1.3) ─┘
+```
+The NAT gateway:
+
+- Has a public IP address
+- Translates private IPs to its public IP
+- Keeps track of connections to route responses back
+
+common integration with the load balancer
+```plaintext
+Internet
+   ↓
+Load Balancer (for incoming traffic)
+   ↓
+Private Services
+   ↓
+NAT Gateway (for outgoing traffic)
+   ↓
+Internet
+```
+The Load Balancer controls who can get in, while NAT controls how internal services get out.
+
+
+### Compute engine
+Same as VM or Virtual Machine
