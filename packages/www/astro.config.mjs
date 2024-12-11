@@ -1,11 +1,18 @@
 import { defineConfig, sharpImageService } from "astro/config";
 
 import tailwind from "@astrojs/tailwind";
-
-// https://astro.build/config
+import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-
 import cloudflare from "@astrojs/cloudflare";
+
+/**
+ * @type {import("astro").AstroUserConfig["markdown"]}
+ */
+const markdown  = {
+	shikiConfig: {
+		theme: "github-dark",
+	},
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,13 +26,7 @@ export default defineConfig({
 		host: "0.0.0.0",
 	},
 
-	markdown: {
-		shikiConfig: {
-			experimentalThemes: {
-				light: "github-light",
-			},
-		},
-	},
+	markdown,
 	vite: {
 		ssr: {
 			external: [
@@ -121,7 +122,9 @@ export default defineConfig({
 		},
 	},
 
-	integrations: [tailwind(), sitemap()],
+	integrations: [tailwind(), sitemap(), mdx({
+		shikiConfig: markdown.shikiConfig,
+	})],
 	output: "server",
 	adapter: cloudflare({
 		imageService: "compile",

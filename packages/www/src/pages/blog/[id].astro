@@ -1,0 +1,63 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, getEntry, render } from "astro:content";
+
+export const prerender = true;
+
+type Params = {
+	id: string;
+};
+
+export async function getStaticPaths() {
+	const blogPosts = await getCollection("blog").then(xs => xs ?? []);
+	return blogPosts.map((post) => ({
+		params: {
+			id: post.id,
+		},
+	}));
+}
+
+const { id } = Astro.params as Params;
+
+const post = await getEntry("blog", id);
+if (!post) {
+	return Astro.redirect("/404");
+}
+
+const { Content } = await render(post);
+
+const { data } = post;
+const formatter = new Intl.DateTimeFormat("en-GB");
+
+const date = formatter
+	.format(data.publishTime) // returns a string in the format "dd/MM/yyyy"
+	.replaceAll("/", ".");
+---
+
+<Layout title={data.title} pageType="article">
+	<header class="container mb-3">
+		<div class="mb-3">
+			<a href="/" class="text-muted-foreground no-underline inline-block text-lg">
+				← home
+			</a>
+		</div>
+	</header>
+	<article class="post-content ">
+		<header class="mb-8">
+			<h1
+				class="text-3xl md:text-5xl font-semibold mb-1 md:mb-3 tracking-tight">{data.title}</h1>
+			<p
+				class="text-xl md:text-2xl text-muted-foreground mb-0.5 md:mb-1 tracking-tight">{data.summary}</p>
+			<div class="flex items-center text-muted-foreground text-sm tracking-tight">
+				<time datetime={date}>{date}</time>
+				<span class="relative bottom-px">&ensp;|&ensp;</span>
+				<span>
+					{data.minutesToRead} min read
+				</span>
+			</div>
+		</header>
+		<div class="prose prose-neutral prose-a:underline-offset-4 ">
+			<Content/>
+		</div>
+	</article>
+</Layout>

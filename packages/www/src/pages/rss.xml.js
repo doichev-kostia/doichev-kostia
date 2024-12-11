@@ -19,7 +19,7 @@ export async function GET(context) {
 			title: p.data.title,
 			pubDate: p.data.publishTime,
 			description: p.data.summary,
-			link: `/blog/${p.slug}`,
+			link: `/blog/${p.id}`,
 			content: sanitizeHtml(parser.render(p.body), {
 				allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
 			}),

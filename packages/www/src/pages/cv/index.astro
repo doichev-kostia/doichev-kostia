@@ -1,10 +1,10 @@
 ---
-import "@/global.css";
-import HeadCommon from "@/components/HeadCommon.astro";
-import ProfileImage from "@/assets/profile-picture.png";
+import "~/global.css";
+import "~/mist.css";
+import HeadCommon from "~/components/HeadCommon.astro";
+import ProfileImage from "~/assets/profile-picture.png";
 import { Picture } from "astro:assets";
-import Button from "@/components/Button.astro";
-import Download from "@/icons/Download.astro";
+import Download from "~/icons/Download.astro";
 
 const ogImage = new URL(ProfileImage.src, Astro.site);
 
@@ -47,10 +47,10 @@ export const prerender = true;
 <body>
 <main class="container mx-auto font-mono print:w-full">
 	<div class="py-4 flex justify-end print:hidden">
-		<Button component="a" download="" href="/doichev-kostiantyn-full-stack.pdf">
+		<a data-component="button" download="" href="/doichev-kostiantyn-full-stack.pdf">
 			<Download class="mr-1 size-5" />
 			Download PDF
-		</Button>
+		</a>
 	</div>
 	<div class="bg-primary-foreground sm:px-8 pb-4 pt-4 print:p-0" id="cv">
 		<header class="flex gap-x-3 mb-5 print:mb-3">

@@ -1,14 +1,13 @@
 ---
-import Button from "../components/Button.astro";
 import Layout from "../layouts/Layout.astro";
-import Typography from "../components/Typography.astro";
----
+
 export const prerender = true;
+---
 
 <Layout>
-	<Typography component="h2" class="text-3xl text-center mt-10">Page not found</Typography>
+	<h2 class="text-3xl text-center mt-10">Page not found</h2>
 
 	<div class="flex items-center justify-center mt-12">
-		<Button component="a" href="/">Home page</Button>
+		<a data-component="button" href="/">Home page</a>
 	</div>
 </Layout>

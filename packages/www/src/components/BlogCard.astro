@@ -1,29 +1,26 @@
 ---
-import Typography from "./Typography.astro";
 type Props = {
-	slug: string;
+	id: string;
 	title: string;
 	summary: string;
 	minutesToRead: number;
 	publishTime: Date;
 };
 
-const { slug, title, publishTime, summary, minutesToRead } = Astro.props as Props;
+const { id, title, publishTime, summary, minutesToRead } = Astro.props as Props;
 const formatter = new Intl.DateTimeFormat("en-GB");
 const date = formatter
 	.format(publishTime) // returns a string in the format "dd/MM/yyyy"
 	.replaceAll("/", ".");
 ---
 
-<a href={`/blog/${slug}`} class="block p-4 shadow-xl bg-card text-card-foreground rounded-xl">
-	<Typography component="h2" class="text-2xl font-semibold leading-none tracking-tight mb-2">{title}</Typography>
-	<Typography component="p" class="text-lg text-muted-foreground mb-3">{summary}</Typography>
+<a href={`/blog/${id}`} class="block p-4 shadow-xl bg-card text-card-foreground rounded-xl">
+	<h2 class="text-2xl font-semibold leading-none tracking-tight mb-2">{title}</h2>
+	<p class="text-lg text-muted-foreground mb-3">{summary}</p>
 	<div class="flex items-center text-muted-foreground text-sm">
-		<Typography component="time" datetime={date}>{date}</Typography>
-		<Typography class="relative bottom-px">&ensp;|&ensp;</Typography>
-		<Typography component="span">
-			{minutesToRead} min read
-		</Typography>
+		<time datetime={date}>{date}</time>
+		<span class="relative bottom-px">&ensp;|&ensp;</span>
+		<span>{minutesToRead} min read</span>
 	</div>
 </a>
 

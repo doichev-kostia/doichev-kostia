@@ -1,0 +1,317 @@
+---
+title: "Achievements | Explorations"
+layout: "../../layouts/Markdown.astro"
+---
+import { Image } from 'astro:assets';
+import blogstats2024 from "./assets/2024-blog-stats-december.png";
+export const prerender = true;
+
+# Achievements | Explorations
+
+This page is a timeline of significant achievements in my life whether it's with regard to my work, programming, personal life, etc.
+I keep it as a reminder to myself of what I have already succeeded in, and that gives me energy and motivation to keep going.
+Some names can be masked for the sake of privacy
+
+## 2024
+
+### Actively maintaining my blog
+https://doichevkostia.dev/
+Added a couple of articles and showcase with examples
+
+<Image src={blogstats2024} alt="blog stats in December 2024" width={500}/>
+
+### Git skills improvements
+I bought some courses and invested some time in improving my git skills to feel more confident and maintain better history structure in the repository.
+In particular I started actively using git rebase, commits squashing or amending and group the changes logically into commits with clear explanations.
+
+### Heavy use of assertions while programming
+I found it to be a great approach to take when writing code. You can document the expected state of the program and verify it at the same time.
+In case the assertion is false, the entire assumption about the program is wrong, so we panic with a helpful message. Due to this, there are less unexpected states or corrupted data
+
+### Heavy use of logging
+Makes it so much easier to track the events in the program and also to document the code
+
+
+### OIDC / OAuth 2 (July)
+I started understanding modern auth principles way better now and have some nice abstractions to work with those specs. https://github.com/doichev-kostia/oidc-auth
+
+### Com service rework for work project (CK) (July)
+I tried to re-work the communication service last year, but I didn’t really like the eventual solution as it still was a separate repo with its own API that required additional auth and managing secrets.
+In July 2024 I merged the com service in the API repo and simplified it to just act as a proxy between the client and GCP PubSub.
+The flow now is that the API posts a message to a Pub Sub topic, the com service subscribes to the topic, receives a message, looks through the authenticated connections and sends the message to a specified list of receivers.
+The authentication is also very simple due to the JWS (JSON Web Signature) with JWK (JSON Web Key). The main back-end uses asymmetric signature with RS256 algorithm for the com connection token.
+It exposes a public key to everyone and signs the token with a private key that is secure. This way, we can easily verify that the token was signed only by the trusted back-end.
+So, when the connection is happening to the com service, it fetches the public key, verifies the signature and saves the pair of the user ID and connection in a map.
+When the message needs to be sent, we look up the user’s connection and send the message. This way, no secrets are exposed to that service and it works on a completely scalable Pub Sub architecture.
+
+### Logical classes separation for work project (CK) (June)
+Class is a very primitive entity that holds a group of people. It’s not a standalone structure and it always has a parent. Due to historical reasons, classes were created at the same level as all the standalone groups.
+This caused a lot of issues logically (constant condition branches to exclude classes) and performance-wise (we need to query way more to be sure that we filter out all the classes and their relations).
+It also could affect the pricing model, as we need to add guard rails everywhere to be sure that there is no class subscription.
+So, I logically separated classes from the rest of the groups while in the data layer it’s still how it used to be (a sacrifice needed to be made in terms of priorities).
+This significantly boosted the performance of the permission checks and made the logical model way simpler
+
+### Subscription re-work for work project (CK) (June)
+When we first re-worked the subscription, the Stripe pricing tables were just announced in beta and didn’t have much functionality, so we had a custom solution.
+However, the pricing tables were still in the back of our heads and something we wanted to try. So, almost a year later we decided to update the pricing and use the tables.
+Unfortunately, they didn’t fit us properly, so we re-designed the model to have only 1 price that can be purchased on a monthly or yearly basis.
+There, of course, were additional improvements in terms of logging, testing and modularity.
+
+### Authentication and invite flows re-work for work project (CK) (June)
+All the auth and invite flows were very unreliable. There was no guarantee that invite would work, the page it links to exists or the customer can be added to the group.
+You also had very complicated sign in/sign up flows with a lot of unnecessary inputs and steps along the way. I can say I completely changed the entire thing.
+I extracted the JWT and authentication in separate modules. Simplified SSO, updated requirements.
+Moreover, I introduced a “communication dispatcher” which is a simple and stable router for all the links we send via external communication channels.
+So, the email magic links do not point to the FE page, they point to this dispatcher where we perform some preprocessing and then redirect to the correct page.
+This way it’s backwards compatible, secure, allows us to perform proper validation and possibly collect metrics.
+
+### Async iterators for paginated requests (June)
+https://github.com/doichev-kostia/js-paginated-response-iterator
+When dealing with any API, we have to consider pagination. If you want to loop through a big number of records, you have to deal with pages or cursors and have a bunch of checks to verify that the data is still available.
+So, I built a very small abstraction that simplifies it to a simple “for” loop.
+
+### Potential project proposal (Summer)
+I had very active involvement in creating a proposal for a desktop application. Together with my colleague (SV) we made a list of possible technologies that we could use, filtered out the best of them - Kotlin Multiplatform, Wails (Web + Go) and made a proposal.
+
+### Monorepo migration for work project (CW)
+I helped the team to migrate from nx monorepo with jest and tsc to pnpm workspaces and swc, which saved them a lot of CI and dev time.
+Their test were running for 40 minutes in GitHub actions and sometimes they were running out of memory on those runners.
+After that huge change, the CI was reduced to under 10 min (if memory serves me well).
+
+### Field & domain ordering for work project (CK) (May)
+We had a requirement to make the fields and domains within them sortable by custom positions that admins will assign.
+As we have a big set of data and positions are dependent on the parent (There can be multiple domains with position 1 within different fields) the task was to make the least updates possible per position change.
+That was a bit challenging but eventually successful. The way I achieved this is by changing positions to decimal values that are equal to (left.postion + right.position) / 2.
+According to this model, only the moved entity will be updated and all the rest are left untouched.
+Eventually, the diff between neighbours will be so small that it would require normalization. When such a state is reached a GCP Task will be created and call /normalize_positions endpoint.
+
+### Remix proposal for project (QF) (May)
+I proposed using Remix for Web part (UI + simple CRUD) as it solves a lot of state issues that React SPAs have.
+Moreover, we do not really build standalone APIs, we build them for our web clients to use, so the majority of the endpoints are only needed for the web application, which triggers a discussion of expanding the expertise of Front-end engineers to care about the thin BFF (back-end for front-end) layer and network.
+
+### WebSocket client (April)
+Instead of relying on Socket.io and being dependent on their architecture I changed it to a way simpler model on the server.
+However, that also required changes on the client side.
+The browser WebSocket API is pretty primitive and doesn’t handle re-connection, retries, timeouts … Therefore, I created my own client
+https://gist.github.com/doichev-kostia/cfebe6d907b9a22cf0f3a962cbfda88e
+
+### Private packages distribution via GCP Artifact Registry (April)
+For the work project's (CK) communication service I generated the OpenAPI client and web socket client.
+However, those were local to `<project_name>-com` repo and needed to be distributed to `<project_name>-api` and `<project_name>-app` repositories.
+The best way I found was using Google Cloud Artifact Registry that has a private npm registry option for a specific project. This way it’s a secure distribution only among the project members
+
+### AsyncLocalStorage (April)
+Node has introduced a new construct that allows having context within the same callback/promise chain.
+This is a very powerful API and I wrote a blog post about it https://doichevkostia.dev/blog/context-in-nodejs/
+
+### API Errors convention (April)
+Errors are an essential part of the API design. I spent quite some time reading about them and found a best, in my opinion way, to structure JSON API errors
+https://github.com/doichev-kostia/errors-convention
+https://gist.github.com/doichev-kostia/0eeabcbbe419c949f638cadbf78e9a35
+
+
+### Infrastructure knowledge gains (March)
+When I just joined Panenco, fixing the GitHub actions pipeline was frightening. With time passing by I learnt a lot.
+So this year I transferred most of the work project (V) infra to Pulumi that acts as a single source of truth and can be quickly restored for new environments.
+Additionally, I improved my skills at creating optimized docker containers, that have proper caching, slim base images and only necessary execution code.
+
+### Role migration for work project (CK) (February - March)
+We had a big mess of roles and their responsibilities since I joined the project.
+We had 5 role entities, out of those, 3 were exactly the same, but named differently.
+Each role had their copy-pasted set of pages on the front-end and a bunch of conditional branches on the BE side.
+For a long time we were cleaning up the front-end side and then finally I could get rid of all of this complexity on the API side.
+In February - March of 2024 they were reworked and we have 3 distinct roles.
+
+
+## 2023
+
+This is an export from a Google Doc I had, and there is no clear timeline
+
+### BE migration
+I started having more involvement on the back-end side
+
+### Work project (CK) TypeScript migration
+
+We completely migrated to TypeScript from an old JavaScript project. Now it’s a matter of time and priorities to refactor the bad JS types
+
+### File processing (April)
+
+I wanted to explore the topic of file processing and I decided to set up a simple [Node.js API](https://github.com/doichev-kostia/web-files) that handles different files and different operations with those files.
+I explored some topics. However, for others, I felt a lack of knowledge. So, I decided to go some levels deeper and do some basic operations with files using the C programming language.
+I tried different operations and I was reading files in different encodings. From UTF-8 to binary (yes, zeros and ones )
+
+### PoC on migration work project (CK) to ESM and using SWC
+
+ES modules are THE standard of module handling in JavaScript. Due to historical reasons, the node implemented its own module system (CommonJS).
+However, we need to move to the standard way of doing things. That’s why I set up a PoC to compile our project API using SWC.
+Unfortunately, the controller loading was not successful. However, I can already create the migration scripts for imports and DB circular dependencies.
+After the crack of the controllers' imports we can do the migration
+
+### Secrets manager
+
+For better secrets safety I and my colleague (KdT) decided to use the Google Cloud Secret Manager for our environment variables, tokens, API keys.
+So, only people that have access to the project can pull those secrets
+
+### Cloud Run migration
+
+I and my colleague (KdT) migrated all the back-end services to Google Cloud Run, which enabled significant flexibility as we were using docker images, reduced the costs and it’s a better option in terms of scalability.
+Moreover, it allowed us to use pnpm (faster and better caching) and all the sourcemaps (even the node modules) to Sentry, which allows us to spot the errors quicker
+
+### New Git Flow (May)
+After a few weeks of discussion with different chapter leads I’ve came up with a new git flow that is currently actively used in several work projects.
+The whole concept and examples are represented in my [repository](https://github.com/doichev-kostia/git-flow-poc) on GitHub
+
+### Temporary environments (May)
+This is the extension of the above-mentioned git flow, as the infrastructure allows us to seamlessly create a temporary environment where we can test some big releases and share those with stakeholders.
+It works both with FE and BE
+
+### Groups & subscriptions refactoring in a work project (CK)
+Subscriptions were a pain point of the app and the structure was too complex.
+Together with my colleague (KdT) we reworked the way the groups are organized, changed the mental model of those relations and simplified Stripe configuration,
+so an admin can seamlessly change it at any time and it’ll be applied within 5 minutes (caching).
+
+### Simple feature flags
+We needed to have simple feature flags for the app. The easiest solution was to store a json file in the google bucket, load it in the memory and invalidate every 10 minutes.
+Every flag has a name, description, enabled and audience property. Audience - general | test. The test audience is defined by their identifiers (email, username);
+
+### Fastify (December)
+Read a book and learned the basics of the framework
+https://github.com/doichev-kostia/fastify-guide
+https://github.com/doichev-kostia/trainly
+It feels significantly more mature and clear than express. Works pretty fast and easy to understand. It’s my go to framework for node.js APIs
+
+### JS Http client (October)
+https://link.excalidraw.com/l/1vrQ6FyH9mj/5udxa6SEJOs
+https://github.com/doichev-kostia/js-http-client
+
+I’ve created the http client with an execution queue that will pause in case the access token should be refreshed.
+
+### Started taking care of my health
+- Wake up at 5 in the morning
+- Cold shower
+- Exercise
+- Proper food and vitamins
+- Tried working from home and it’s not the proper working environment for me. Office is much better
+
+### Kysely
+https://link.excalidraw.com/l/1vrQ6FyH9mj/9Vrsn99xoD7
+Integrated it in some projects. It seems to be a great query builder. The only issue is data mapping. How to live without an ORM for that?
+
+### SQL performance
+I did quite some research regarding the performance optimizations in the SQL queries.
+Improved the understanding of indices, visualized the query plan.
+Still the big question is, how does the query planner work and how can I influence the decision? And, by the way, the foreign keys are not indexed automatically, only the “unique” values.
+
+### Version management in the web applications (September)
+https://link.excalidraw.com/l/1vrQ6FyH9mj/5udxa6SEJOs
+How the FE client stays up-to-date with all the new changes. We propagate the version header from the BE and when there is a mismatch, the FE application schedules a refresh (inactivity or  route change)
+
+### File processing services
+Files are just binary data, so there is no need in `new FormData()` and so on.
+We can just create and array buffer from the file and send it to the back end.
+Additionally, every small processing step can be extracted in a separate service and expose the interface, which will then be implemented in different ways
+
+### Vim motions
+A huge speed improvement in terms of text editing. I LOVE them. Feel very efficient
+
+### Git workflow improvements work project (CK) Back-End
+- one image for staging/prod
+- image tags via commits (quick rollback, no need for rebuild)
+- release-based workflow
+
+### OSS contributions
+https://github.com/microsoft/playwright/issues/22688
+https://github.com/PacktPublishing/Accelerating-Server-Side-Development-with-Fastify/issues/53
+https://github.com/mcollina/reusify/pull/13
+https://github.com/swc-project/swc-node/issues/743
+
+### Work project (CK) communication service (websockets) refactoring (December)
+- monorepo (turborepo)
+- api client generation based on the open api spec
+- fastify
+- metrics via OpenTelemetry
+
+Com service was previously made in a fast manner without some additional thought. As it’s a pretty simple service, I tried to introduce a bunch of great stuff.
+With monorepo it’s much easier to structure the code, especially after all those trials and errors I had with different packages.
+`tsup` and `changesets` do a great job of managing the packages.
+The GCP has a private npm registry where I can deploy the api-client generated based on the open api spec.
+This is fantastic! Fastify feels awesome, simple and fast. The open telemetry standard is a huge deal and I think it can boost the understanding of the app and the overall debugging quality to a whole new level
+
+### Config loader idea (December)
+https://link.excalidraw.com/l/1vrQ6FyH9mj/AX4n2VOlhQN
+https://github.com/doichev-kostia/config-loader
+It seems that I found a great balance in terms of the config management and how to load them inside the app. Really happy with it
+
+Retrospect from 2024: It didn't work. Too complex and too much hustle.
+
+
+### API client generation based on the OpenAPI spec (December)
+No more need for manual typing and diff files for the api changes. The client can be generated based on the open api spec.
+You can use GitHub/Google/Npm as a private registry for the package. On pr it’s possible to generate the open api spec from the pr and master, in case of changes – check for the changesets changelog.
+
+
+## 2022
+
+This is an export from a Google Doc I had, and there is no clear timeline
+
+### Pnpm (November)
+Previously, many products used yarn as their package manager. This tool was a great alternative to npm several years ago.
+However, it’s still relatively slow and unreliable, especially in v1. Consequently, I decided to look for a better alternative, "pnpm”.
+Pnpm showed its great side in terms of performance, better caching and storage strategy and safeness.
+So, it saved us quite some time here and there in CI and during the local development, because we forgot about conflicts in lock files.
+
+### Renovate (September)
+Renovate - a tool for managing dependencies. For quite some time “dependabot” was the only option.
+However, it had some drawbacks regarding the variety of support and the coverage area. On the 20th of September, 2022 I suggested making the migration to renovate.
+This tool showed itself on the bright side and not only improved dependency management but also, we reduced the number of security vulnerabilities
+
+### Tests parallelization (May)
+For a very long time we used to run all cypress tests in one container which took a lot of time,
+so with guidance from another dev I set up the parallelization of the Cypress tests for the primary project I was working on, which was later taken for other products in Panenco portfolio
+
+### CircleCI (June)
+I started the migration of our main front-end apps to a more reliable and fast CI tool because at that time GitHub actions were extremely slow and flaky.
+We lost a lot of time and money owing to some internal issues with the GitHub runners, and at the end of June 2022, I with help of my colleague (SV) migrated several projects to Circle CI.
+
+### Playwright (November)
+E2e testing is an important part of our workflow and we needed to be sure that the tools we use are reliable, fast and great from the developer experience.
+Cypress held the 1st place for a long time, but it started being really slow, and flaky. Moreover, it was not pleasant to write tests.
+I discovered a new framework and created a presentation about it for the Software Labs.
+Soon, some of the projects started actively using it.
+
+### Vite (Summer)
+During the summer of 2022 I discovered a better alternative to webpack, which was significantly faster and required less configuration from the developer.
+On the 27th of July 2022 I prepared a presentation for the general All Hands meeting about my discoveries.
+Although I migrated my work project (CK) to Vite, the pr was not merged as I thought that we were not yet ready for that.
+Nevertheless, I pushed it many times to our dev team and, eventually, the decision to switch to vite was supported by my colleagues and the migration has started.
+On the 20th of March 2023, my work project (CK) was successfully migrated to Vite
+
+### Tailwind CSS (September)
+Tailwind is a CSS utility framework that is very popular across the web world. I’ve tested it out and liked the approach it offered.
+So, as usual, I decided to make a presentation about it for a broad audience, and on September 1st, 2022 I told the front-end team about this framework.
+It had mixed reviews but we (the project Front-end team) decided to give it a shot.
+And now I’m happy about this decision because it simplified a lot of code, optimized CSS and improved DX (dev experience).
+
+### Demo keynotes
+I and the team on the work project (CK) decided to improve the quality of the retro and demo sessions at the end of sprints,
+so the idea was to prepare a keynote for several slides with an explanation of the achievements during 2 weeks of work and a small demonstration of it.
+Overall, the idea was great and we’ve prepared for a lot of demo sessions already
+
+### Unit tests introduction for the front-end
+I configured unit tests to improve the code quality and standards for our Front End apps.
+This changed our way of thinking a bit because we need not only to produce code but to be sure that it’s working as it’s in our heads. Additionally, it’s a good way of creating specs for the codebase
+
+### Panenco wiki
+Wiki was migrated to a static site builder and deployed to the hosting, so it was available for all company employees
+
+### React query migration for work project (CK)
+It was not yet finished, but we did a lot of effort to store the server-side state in react query instead of redux.
+I can’t say that I brought that tool or migrated the code myself, but I took a considerable part in the process
+
+### Updated the routing concept for the work project (CK)
+
+Inspired by svelte kit + next.js.
+We had an outdated Container-Component pattern all over the place. It had a lot of problems with data fetching, props drilling, navigation…
+
+The idea was to have pages directory where the directory structure represents the segment of the url and page.tsx - a reserved file name that indicates a page.
+It become much easier to find needed pages as well as the components that they were using

@@ -61,6 +61,7 @@ img {
 	* {
 		@apply border-border;
 		box-sizing: border-box;
+		@apply font-mono;
 	}
 
 	body {
