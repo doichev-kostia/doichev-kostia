@@ -15,7 +15,7 @@ import { sprintf } from "@std/fmt/printf";
 
 export module fmt {
   export function Sprintf(pattern: string, ...args: unknown[]): string {
-    return sprintf(pattern, args);
+    return sprintf(pattern, ...args);
   }
 
   export function Errorf(pattern: string, ...args: unknown[]): Error {
