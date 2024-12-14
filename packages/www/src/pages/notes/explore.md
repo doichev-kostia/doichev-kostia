@@ -5,6 +5,9 @@ title: Dump of things I want to explore
 
 To Explore:
 
+- f# https://fsharpforfunandprofit.com/
+- motion lib JS https://motion.dev/
+- academy pikuma.com
 - app with SST where the FE (BFF) is in Remix, generic API and mobile in Kotlin (Multiplatform) & some AI stuff in python – this should be just a bootstrap repo to verify the idea
 - https://github.com/typicode/mistcss for reusable components using CSS, instead of making them via React/Svelte/Solid. But for all the other styles use tailwind
 - https://buildpacks.io/ converts the app into the OCI image
