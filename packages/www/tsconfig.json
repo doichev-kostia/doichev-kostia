@@ -1,16 +1,17 @@
 {
-	"extends": "astro/tsconfigs/strictest",
-	"compilerOptions": {
-		"baseUrl": ".",
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    "baseUrl": ".",
     "verbatimModuleSyntax": true,
     "paths": {
-			"~/*": [
-				"src/*"
-			]
-		}
-	},
-	"include": [
-		"./src/**/*.ts",
+      "~/*": [
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*.ts",
     ".astro/types.d.ts",
-	]
+    "sst-env.d.ts",
+  ]
 }

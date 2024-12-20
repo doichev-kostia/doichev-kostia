@@ -8,7 +8,7 @@ import cloudflare from "@astrojs/cloudflare";
 /**
  * @type {import("astro").AstroUserConfig["markdown"]}
  */
-const markdown  = {
+const markdown = {
 	shikiConfig: {
 		theme: "github-dark",
 	},
@@ -24,6 +24,7 @@ export default defineConfig({
 
 	server: {
 		host: "0.0.0.0",
+		port: 5173,
 	},
 
 	markdown,

@@ -7,12 +7,22 @@ export {}
 import "sst"
 declare module "sst" {
   export interface Resource {
+    "GoogleOauthClientID": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "GoogleOauthClientSecret": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
   }
 }
 // cloudflare 
 import * as cloudflare from "@cloudflare/workers-types";
 declare module "sst" {
   export interface Resource {
+    "Auth": cloudflare.Service
+    "AuthKv": cloudflare.KVNamespace
     "Dump": cloudflare.R2Bucket
   }
 }
