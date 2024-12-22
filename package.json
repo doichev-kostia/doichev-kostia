@@ -17,7 +17,13 @@
   "dependencies": {
     "@pulumi/cloudflare": "^5.45.0",
     "@std/toml": "npm:@jsr/std__toml",
-    "sst": "3.3.59",
+    "sst": "3.4.27",
+    "ts-pattern": "^5.6.0",
     "zod": "^3.24.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "shiki": "1.24.4"
+    }
   }
 }

@@ -5,13 +5,22 @@
     "verbatimModuleSyntax": true,
     "paths": {
       "~/*": [
-        "src/*"
+        "./src/*"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      },
+    ],
   },
+  "exclude": [
+    "dist",
+    "node_modules",
+  ],
   "include": [
-    "./src/**/*.ts",
-    ".astro/types.d.ts",
-    "sst-env.d.ts",
+    "./src/**/*",
+    "./.astro/types.d.ts",
+    "./sst-env.d.ts",
   ]
 }

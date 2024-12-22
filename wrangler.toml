@@ -1,11 +1,7 @@
-name = "doichev-kostia"
-main = "./packages/www/dist/_worker.js/index.js"
+main = "./packages/www/worker.ts"
 compatibility_date = "2024-11-12"
 compatibility_flags = ["nodejs_compat"]
-
 assets = { directory = "./packages/www/dist", binding = "ASSETS" }
-
-routes = [{ pattern = "doichevkostia.dev", custom_domain = true }]
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
@@ -13,5 +9,10 @@ routes = [{ pattern = "doichevkostia.dev", custom_domain = true }]
 [observability]
 enabled = true
 
-[vars]
-SST_RESOURCE_Auth = '{"type":"sst.cloudflare.Worker","url":"https://doichev-kostia-dev-authscript.doichev-kostia.workers.dev"}'
+[env.production]
+name = "doichev-kostia-production-www"
+# routes = [{ pattern = "doichevkostia.dev", custom_domain = true }]
+
+[env.dev]
+name = "doichev-kostia-dev-www"
+workers_dev = true

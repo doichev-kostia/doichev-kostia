@@ -7,6 +7,10 @@ export {}
 import "sst"
 declare module "sst" {
   export interface Resource {
+    "AuthService": {
+      "type": "sst.sst.Linkable"
+      "url": string
+    }
     "GoogleOauthClientID": {
       "type": "sst.sst.Secret"
       "value": string

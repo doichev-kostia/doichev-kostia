@@ -7,7 +7,7 @@
     "@std/assert": "npm:@jsr/std__assert",
     "hono": "^4.6.13",
     "ky": "^1.7.3",
-    "sst": "3.4.5",
+    "sst": "3.4.27",
     "zod": "^3.24.1"
   },
   "devDependencies": {

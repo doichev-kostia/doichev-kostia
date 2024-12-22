@@ -1,7 +1,5 @@
-/// <reference path="./.sst/platform/config.d.ts" />
-import { ZodSchema } from "zod";
+import { match } from "ts-pattern";
 import { z } from "zod";
-import { WorkerConfig } from "./infra/cf";
 
 const env = z
 	.object({
@@ -63,13 +61,23 @@ export default $config({
 				secrets.GoogleOauthClientSecret,
 			],
 		});
-		sst.Linkable.wrap(random.RandomPassword, (resource) => {
+
+		const authService = new sst.Linkable("AuthService", {
+			properties: {
+				url: auth.url,
+			}
+		})
+
+		function randomPasswordLink(resource: random.RandomPassword) {
 			return {
 				properties: {
 					value: resource.result,
 				},
 			};
-		});
+		}
+
+		sst.Linkable.wrap(random.RandomPassword, randomPasswordLink);
+
 		const knowledeBaseSyncSecret = new random.RandomPassword(
 			"KnowledgeBaseWebhookSecret",
 			{
@@ -91,62 +99,47 @@ export default $config({
 			},
 		);
 		const siteDev = new sst.x.DevCommand("WWWDev", {
-			link: [auth, knowledeBaseSyncSecret],
+			link: [authService, knowledeBaseSyncSecret],
 			dev: {
 				command: "pnpm --filter=www run dev",
 			},
 		});
+
+		// Unfortunatelly, very small set of cloudlfare features is supported by terraform, therefore, it's better to use wrangler, and only manage the links in SST
+		const wwwWorkerName = match($app.stage)
+			.with("production", () => "doichev-kostia-production-www")
+			.otherwise(() => "doichev-kostia-dev-www");
+
+		const sstAppSecret = new cloudflare.WorkersSecret("WWWSSTAppSecret", {
+			accountId: env.CLOUDFLARE_DEFAULT_ACCOUNT_ID,
+			name: "SST_RESOURCE_App",
+			scriptName: wwwWorkerName,
+			secretText: $util.jsonStringify({
+				name: $app.name,
+				stage: $app.stage,
+			}),
+		});
+
+		const authServiceSecret = new cloudflare.WorkersSecret("WWWAuthServiceSecret", {
+			accountId: env.CLOUDFLARE_DEFAULT_ACCOUNT_ID,
+			name: "AuthService",
+			scriptName: wwwWorkerName,
+			secretText: $util.jsonStringify(authService.properties)
+		});
+
 		const workerKnowledgeBaseSecret = new cloudflare.WorkersSecret(
 			"WWWKnowledgeBaseSecret",
 			{
 				accountId: env.CLOUDFLARE_DEFAULT_ACCOUNT_ID,
 				name: "KnowledgeBaseWebhookSecret",
-				scriptName: "doichev-kostia-dev-wwwscript",
-				secretText: knowledeBaseSyncSecret.result,
+				scriptName: wwwWorkerName,
+				secretText: $util.jsonStringify(randomPasswordLink(knowledeBaseSyncSecret).properties),
 			},
 		);
 
-		const cfg = WorkerConfig({
-			name: "test-www",
-			handler: "./packages/www/dist/_worker.js/index.js",
-			assets: "./packages/www/dist",
-			domain: domain,
-			link: [auth, knowledeBaseSyncSecret]
-		});
 
-		cfg.apply((x) => console.log(x));
-
-		const filename = `www-config-${$app.stage}.toml`
-
-		const createConfig = new command.local.Command("WWWCreateConfig", {
-			triggers: [cfg],
-			dir: process.cwd(),
-			create: $util.interpolate`echo '${cfg}' > ${filename}`
-		});
-
-		const wranglerDeploy = new command.local.Command("WWWDeploy", {
-			environment: {
-				CLOUDFLARE_DEFAULT_ACCOUNT_ID: env.CLOUDFLARE_DEFAULT_ACCOUNT_ID,
-				CLOUDFLARE_API_TOKEN: env.CLOUDFLARE_API_TOKEN,
-			},
-			dir: process.cwd(),
-			triggers: [cfg],
-			create: $util.interpolate`pnpm exec wrangler deploy --config=${filename}`
-		}, { dependsOn: [createConfig] });
-
-
-		// const site = new sst.cloudflare.Worker("WWW", {
-		// 	handler: "./packages/www/dist/_worker.js/index.js",
-		// 	domain: domain,
-		// 	url: true,
-		// 	link: [
-		// 		auth,
-		// 		knowledeBaseSyncSecret,
-		// 	],
-		// });
 		return {
 			auth: auth.url,
-			// www: site.url,
 		};
 	},
 });

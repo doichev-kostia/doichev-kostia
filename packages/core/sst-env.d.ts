@@ -6,14 +6,18 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
-    "Auth": {
-      "type": "sst.cloudflare.Worker"
-      "url": string
-    }
     "AuthKv": {
       "type": "sst.cloudflare.Kv"
     }
-    "Dump": {
+    "AuthService": {
+      "type": "sst.sst.Linkable"
+      "url": string
+    }
+    "AuthWorker": {
+      "type": "sst.cloudflare.Worker"
+      "url": string
+    }
+    "Bucket": {
       "type": "sst.cloudflare.Bucket"
     }
     "GoogleOauthClientID": {
@@ -22,6 +26,10 @@ declare module "sst" {
     }
     "GoogleOauthClientSecret": {
       "type": "sst.sst.Secret"
+      "value": string
+    }
+    "KnowledgeBaseWebhookSecret": {
+      "type": "random.index/randomPassword.RandomPassword"
       "value": string
     }
   }

@@ -1,4 +1,3 @@
-/// <reference path="../.astro/types.d.ts" />
 import type { SubjectPayload } from "@openauthjs/openauth/session"
 import { subjects } from "./auth";
 
