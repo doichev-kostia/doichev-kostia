@@ -15,14 +15,18 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "KnowledgeBaseWebhookSecret": {
+      "type": "random.index/randomPassword.RandomPassword"
+      "value": string
+    }
   }
 }
 // cloudflare 
 import * as cloudflare from "@cloudflare/workers-types";
 declare module "sst" {
   export interface Resource {
-    "Auth": cloudflare.Service
     "AuthKv": cloudflare.KVNamespace
-    "Dump": cloudflare.R2Bucket
+    "AuthWorker": cloudflare.Service
+    "Bucket": cloudflare.R2Bucket
   }
 }
