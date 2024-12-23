@@ -43,9 +43,13 @@ export default defineConfig({
 	},
 
 	markdown,
-	integrations: [tailwind(), sitemap(), mdx({
-		shikiConfig: markdown.shikiConfig,
-	})],
+	integrations: [
+		tailwind(),
+		sitemap(),
+		mdx({
+			shikiConfig: markdown.shikiConfig,
+		}),
+	],
 	output: "server",
 	adapter: cloudflare({
 		imageService: "compile",

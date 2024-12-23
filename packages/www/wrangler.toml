@@ -9,6 +9,12 @@ assets = { directory = "./packages/www/dist", binding = "ASSETS" }
 [observability]
 enabled = true
 
+[[d1_databases]]
+binding = "DB"
+database_name = "doichev-kostia"
+database_id = "f80f398f-b012-4d45-b199-50b8881ad357"
+migrations_dir = "drizzle/migrations"
+
 [env.production]
 name = "doichev-kostia-production-www"
 # routes = [{ pattern = "doichevkostia.dev", custom_domain = true }]
