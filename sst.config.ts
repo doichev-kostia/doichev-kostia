@@ -105,6 +105,16 @@ export default $config({
 			},
 		});
 
+		const siteWorkerDev = new sst.x.DevCommand("WWWWorkerDev", {
+			environment: {
+				NODE_ENV: "development"
+			},
+			dev: {
+				directory: "./packages/www",
+				command: "pnpm exec wrangler dev --env=dev"
+			}
+		});
+
 		// Unfortunatelly, very small set of cloudlfare features is supported by terraform, therefore, it's better to use wrangler, and only manage the links in SST
 		const wwwWorkerName = match($app.stage)
 			.with("production", () => "doichev-kostia-production-www")

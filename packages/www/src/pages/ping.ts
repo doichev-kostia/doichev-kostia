@@ -1,5 +1,1 @@
-import type { APIRoute } from "astro";
-
-export const GET: APIRoute = () => {
-	return new Response("pong");
-}
+export const GET = () => new Response("pong");

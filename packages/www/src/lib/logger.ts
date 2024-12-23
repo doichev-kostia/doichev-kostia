@@ -1,4 +1,4 @@
-import { createContext } from "./context";
+import { Context } from "./context";
 
 // TODO: use pino logger and add the request path and method to its context
 type Logger = {
@@ -10,7 +10,7 @@ type Logger = {
 	warn(...data: any[]): void;
 }
 
-export const LoggerContext = createContext<Logger>("Logger");
+export const LoggerContext = Context.create<Logger>("Logger");
 
 export function logger(): Logger {
 	return LoggerContext.use().unwrapOr(console);

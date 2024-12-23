@@ -26,5 +26,6 @@
     "./.astro/types.d.ts",
     "./sst-env.d.ts",
     "./worker-configuration.d.ts",
+    "worker.ts",
   ]
 }
