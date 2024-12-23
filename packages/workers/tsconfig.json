@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "isolatedModules": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": false,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
+    "allowUnreachableCode": false,
+    "pretty": true,
+    "newLine": "lf",
+    "skipLibCheck": true
+  },
+  "include": [
+    "./sst-env.d.ts",
+    "../../sst-env.d.ts",
+    "src/*/*.ts"
+  ]
+}

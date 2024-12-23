@@ -4,12 +4,21 @@
 /* deno-fmt-ignore-file */
 import "sst"
 export {}
-import "sst"
 declare module "sst" {
   export interface Resource {
+    "AuthKv": {
+      "type": "sst.cloudflare.Kv"
+    }
     "AuthService": {
       "type": "sst.sst.Linkable"
       "url": string
+    }
+    "AuthWorker": {
+      "type": "sst.cloudflare.Worker"
+      "url": string
+    }
+    "Bucket": {
+      "type": "sst.cloudflare.Bucket"
     }
     "GoogleOauthClientID": {
       "type": "sst.sst.Secret"
@@ -23,14 +32,5 @@ declare module "sst" {
       "type": "random.index/randomPassword.RandomPassword"
       "value": string
     }
-  }
-}
-// cloudflare 
-import * as cloudflare from "@cloudflare/workers-types";
-declare module "sst" {
-  export interface Resource {
-    "AuthKv": cloudflare.KVNamespace
-    "AuthWorker": cloudflare.Service
-    "Bucket": cloudflare.R2Bucket
   }
 }

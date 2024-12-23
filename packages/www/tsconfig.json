@@ -1,16 +1,30 @@
 {
-	"extends": "astro/tsconfigs/strictest",
-	"compilerOptions": {
-		"baseUrl": ".",
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": [
+      "@cloudflare/workers-types",
+    ],
     "verbatimModuleSyntax": true,
     "paths": {
-			"~/*": [
-				"src/*"
-			]
-		}
-	},
-	"include": [
-		"./src/**/*.ts",
-    ".astro/types.d.ts",
-	]
+      "~/*": [
+        "./src/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      },
+    ],
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+  ],
+  "include": [
+    "./src/**/*",
+    "./.astro/types.d.ts",
+    "./sst-env.d.ts",
+    "./worker-configuration.d.ts",
+  ]
 }

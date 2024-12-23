@@ -15,19 +15,24 @@ jobs:
       deployments: write
     name: Deploy to Cloudflare
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: pnpm/action-setup@v4
 
-      - run: bun install
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
 
-      - run: bun run build
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - run: pnpm run build
 
       - name: Publish
         uses: cloudflare/wrangler-action@v3.12.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          packageManager: bun
+          packageManager: pnpm
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --config ./wrangler.toml

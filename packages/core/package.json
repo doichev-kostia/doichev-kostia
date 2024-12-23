@@ -1,0 +1,15 @@
+{
+  "name": "@doichev-kostia/core",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@openauthjs/openauth": "^0.0.24",
+    "@standard-schema/spec": "^1.0.0-beta.4",
+    "@std/assert": "npm:@jsr/std__assert",
+    "@std/fmt": "npm:@jsr/std__fmt",
+    "@std/ulid": "npm:@jsr/std__ulid",
+    "zod": "^3.24.1"
+  }
+}

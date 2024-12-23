@@ -8,9 +8,24 @@ import cloudflare from "@astrojs/cloudflare";
 /**
  * @type {import("astro").AstroUserConfig["markdown"]}
  */
-const markdown  = {
+const markdown = {
 	shikiConfig: {
-		theme: "github-dark",
+		theme: "catppuccin-latte",
+		/**
+		* You can set lang to text to bypass highlighting. This is useful as the fallback when you receive user specified language that are not available.
+		* {@link https://shiki.style/languages#plain-text}
+		*/
+		lang: "text",
+		langs: [
+			"text",
+			"html",
+			"css",
+			"javascript",
+			"typescript",
+			"shellscript",
+			"yaml",
+			"json",
+		]
 	},
 }
 
@@ -24,9 +39,24 @@ export default defineConfig({
 
 	server: {
 		host: "0.0.0.0",
+		port: 5173,
 	},
 
 	markdown,
+	integrations: [
+		tailwind(),
+		sitemap(),
+		mdx({
+			shikiConfig: markdown.shikiConfig,
+		}),
+	],
+	output: "server",
+	adapter: cloudflare({
+		imageService: "compile",
+		platformProxy: {
+			enabled: true,
+		},
+	}),
 	vite: {
 		ssr: {
 			external: [
@@ -118,18 +148,8 @@ export default defineConfig({
 				"wasi",
 				"worker_threads",
 				"zlib",
+				"sst",
 			],
 		},
 	},
-
-	integrations: [tailwind(), sitemap(), mdx({
-		shikiConfig: markdown.shikiConfig,
-	})],
-	output: "server",
-	adapter: cloudflare({
-		imageService: "compile",
-		platformProxy: {
-			enabled: true,
-		},
-	}),
 });

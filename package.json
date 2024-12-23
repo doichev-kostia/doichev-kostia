@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun --filter=./packages/www run build && wrangler types"
+    "build": "pnpm --filter=./packages/www run build && wrangler types"
   },
   "workspaces": [
-    "./packages/*"
+    "packages/*"
   ],
   "devDependencies": {
     "@cloudflare/workers-types": "4.20241205.0",
@@ -15,6 +15,15 @@
     "wrangler": "^3.90.0"
   },
   "dependencies": {
-    "sst": "3.3.59"
+    "@pulumi/cloudflare": "^5.45.0",
+    "@std/toml": "npm:@jsr/std__toml",
+    "sst": "3.4.27",
+    "ts-pattern": "^5.6.0",
+    "zod": "^3.24.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "shiki": "1.24.4"
+    }
   }
 }

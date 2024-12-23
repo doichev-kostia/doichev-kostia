@@ -1,16 +1,24 @@
-name = "doichev-kostia"
-main = "./packages/www/dist/_worker.js/index.js"
+main = "./packages/www/worker.ts"
 compatibility_date = "2024-11-12"
 compatibility_flags = ["nodejs_compat"]
-
 assets = { directory = "./packages/www/dist", binding = "ASSETS" }
-
-routes = [
-	{ pattern = "doichevkostia.dev", custom_domain = true }
-]
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
 [observability]
 enabled = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "doichev-kostia"
+database_id = "f80f398f-b012-4d45-b199-50b8881ad357"
+migrations_dir = "drizzle/migrations"
+
+[env.production]
+name = "doichev-kostia-production-www"
+# routes = [{ pattern = "doichevkostia.dev", custom_domain = true }]
+
+[env.dev]
+name = "doichev-kostia-dev-www"
+workers_dev = true
