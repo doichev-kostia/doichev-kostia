@@ -1,5 +1,6 @@
 import { decodeHex } from "@std/encoding";
 import { z } from "zod";
+import { Queue } from "./queue";
 
 export module GitHub {
 
@@ -58,5 +59,11 @@ export module GitHub {
 			repository: z.string().describe("A git repository in format <owner>/<repo>"), // TODO
 			commits: z.array(Commit),
 		})
+	}
+
+	export const QueueMessages = {
+		import: Queue.defineMessage("github.import", z.object({
+			files: z.array(z.string()).describe("") // TODO - what is the format of that string?
+		}))
 	}
 }

@@ -4,6 +4,7 @@ import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
+import * as path from "node:path";
 
 /**
  * @type {import("astro").AstroUserConfig["markdown"]}
@@ -54,10 +55,15 @@ export default defineConfig({
 	adapter: cloudflare({
 		imageService: "compile",
 		platformProxy: {
+			configPath: path.resolve("wrangler.toml"),
 			enabled: true,
+			environment: "dev"
 		},
 	}),
 	vite: {
+		build: {
+			minify: false,
+		},
 		ssr: {
 			external: [
 				"node:assert",

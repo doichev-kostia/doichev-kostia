@@ -1,19 +1,13 @@
-main = "./packages/www/worker.ts"
+main = "./worker.ts"
 compatibility_date = "2024-11-12"
 compatibility_flags = ["nodejs_compat"]
-assets = { directory = "./packages/www/dist", binding = "ASSETS" }
+assets = { directory = "./dist", binding = "ASSETS" }
 
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
 [observability]
 enabled = true
-
-[[d1_databases]]
-binding = "DB"
-database_name = "doichev-kostia"
-database_id = "f80f398f-b012-4d45-b199-50b8881ad357"
-migrations_dir = "drizzle/migrations"
 
 [env.production]
 name = "doichev-kostia-production-www"
@@ -22,3 +16,17 @@ name = "doichev-kostia-production-www"
 [env.dev]
 name = "doichev-kostia-dev-www"
 workers_dev = true
+
+[[env.dev.d1_databases]]
+binding = "DB"
+database_name = "doichev-kostia"
+database_id = "f80f398f-b012-4d45-b199-50b8881ad357"
+migrations_dir = "drizzle/migrations"
+
+[[env.dev.queues.producers]]
+binding = "Queue"
+queue = "doichev-kostia-queue"
+
+[[env.dev.queues.consumers]]
+queue = "doichev-kostia-queue"
+dead_letter_queue = "doichev-kostia-dead-letter-queue"
