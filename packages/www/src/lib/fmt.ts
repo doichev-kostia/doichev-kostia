@@ -7,6 +7,6 @@ export module fmt {
 	}
 
 	export function Errorf(pattern: string, ...args: unknown[]): Error {
-		return new Error(Sprintf(pattern, args));
+		return new Error(Sprintf(pattern, ...args));
 	}
 }

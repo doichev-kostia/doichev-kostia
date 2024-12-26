@@ -1,6 +1,5 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import { err, ok, Result } from "neverthrow";
-import { reduce, filter, map, pipe, reverse } from "remeda";
 
 class ErrContextUnavailable extends Error {
 	constructor(name: string) {
@@ -73,22 +72,15 @@ export module Context {
 	export function compose(
 		...contexts: (ContextFn<any> | undefined)[]
 	) {
+		const ctx = contexts.filter(Boolean) as Array<ContextFn<any>>;
 		return function wrap<R>(fn: () => R): R {
-			const result = pipe(
-				contexts,
-				filter<ContextFn<any> | undefined>(Boolean), // typescript doesn't understand the Boolean thing
-				map(ctx => ctx!),
-				reverse(),
-				reduce((prev: R | (() => R), curr: ContextFn<any>) => {
-					if (prev === fn) {
-						return curr(fn)
-					} else {
-						return curr(() => prev as R);
-					}
-				}, fn)
-			);
+			// Reduce the context functions from right to left
+			const run = ctx.reduceRight((acc: () => R, contextFn: ContextFn<any>) => {
+				return () => contextFn(acc);
+			}, fn);
 
-			return result as R;
+			return run();
 		};
 	}
+
 }

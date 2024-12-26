@@ -1,5 +1,5 @@
 import { wrapCloudflareHandler } from "sst";
-import { queue } from "~/queue.js";
+import { queue } from "./src/queue.js";
 
 let fetch: ExportedHandlerFetchHandler;
 if (process.env.NODE_ENV === "development") {

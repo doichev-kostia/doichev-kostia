@@ -2,12 +2,11 @@ import { drizzle } from "drizzle-orm/d1";
 import { GitHub } from "./core/github";
 import { Queue } from "./core/queue";
 import { DatabaseContext } from "./db/db";
-import { logger, LoggerContext } from "./lib/logger";
+import { logger, LoggerContext, pinoLogger } from "./lib/logger";
 import { fmt } from "./lib/fmt";
 import { Context } from "./lib/context";
 
 export async function queue(batch: MessageBatch<unknown>, env: CloudflareEnvironment, ctx: ExecutionContext): Promise<void> {
-	console.log(batch);
 	const consumer = Queue.consumer(
 		[GitHub.QueueMessages.import],
 		async function queueHandler(batch) {
@@ -16,7 +15,9 @@ export async function queue(batch: MessageBatch<unknown>, env: CloudflareEnviron
 		});
 
 	const wrap = Context.compose(
-		LoggerContext.curry(console),
+		LoggerContext.curry(pinoLogger.child({
+			queue: batch.queue,
+		})),
 		DatabaseContext.curry(drizzle(env.DB)),
 	);
 
