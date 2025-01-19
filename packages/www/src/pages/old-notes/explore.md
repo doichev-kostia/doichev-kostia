@@ -5,10 +5,13 @@ title: Dump of things I want to explore
 
 To Explore:
 
+- https://guide.handmadehero.org/
+- mouseless app
+- Android emulator Bluestack for MacOS https://www.bluestacks.com/mac
 - astro + hono https://nuro.dev/posts/how_to_use_astro_with_hono/
 - sessions https://github.com/pilcrowonpaper/copenhagen/blob/main/pages%2Fsessions.md https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets%2FSession_Management_Cheat_Sheet.md
 - why libmbo (rust sqlite compatible db) was created https://penberg.org/papers/penberg-edgesys24.pdf
-- aws sqs compatible queue (https://github.com/fortress-build/nervemq), maybe I could use it as docker container in sst 
+- aws sqs compatible queue (https://github.com/fortress-build/nervemq), maybe I could use it as docker container in sst
 - files to markdown https://github.com/microsoft/markitdown
 - f# https://fsharpforfunandprofit.com/
 - motion lib JS https://motion.dev/

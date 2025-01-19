@@ -3,7 +3,7 @@ layout: "../../layouts/Markdown.astro"
 title: GCP notes
 ---
 
-# GCP 
+# GCP
 
 ### VM & Container
 No-one is buying a 2vCPU machine specifically for you. The cloud providers buy beasts with 64 CPU cores (128 vCPU), 512 MB RAM, 2 TB SSD, but then
@@ -74,7 +74,7 @@ Cloud Run instances expose a metadata server that you can use to retrieve detail
 To access metadata, call `http://metadata.google.internal` with `Metadata-Flavor: Google` header
 https://cloud.google.com/run/docs/container-contract#metadata-server
 
-There is some project.toml file 
+There is some project.toml file
 
 #### Service
 
@@ -96,11 +96,11 @@ at which point Cloud Run sends a __SIGKILL__ signal.
 
 #### Job
 Job must exit with status code "0" to be "successful".
-Can schedule up to 10K tasks that can be executed in parallel for one job. 
+Can schedule up to 10K tasks that can be executed in parallel for one job.
 
 #### Testing
 
-Mount the __APPLICATION_DEFAULT_CREDENTIALS__ into the docker container 
+Mount the __APPLICATION_DEFAULT_CREDENTIALS__ into the docker container
 ```
 -v $GOOGLE_APPLICATION_CREDENTIALS:/tmp/keys/<FILE_NAME>.json:ro
 ```
@@ -110,8 +110,8 @@ Local Dev Env `gcloud beta code dev`
 
 #### Volume mounts
 
-I can mount different volumes to my cloud run instance. An example would be a privatly hosted static website. My files can be stored in the GCS Bucket, 
-I can mount that bucket to `/usr/share/ngnix/html` and run the nxinx container. If custom config needed, 
+I can mount different volumes to my cloud run instance. An example would be a privatly hosted static website. My files can be stored in the GCS Bucket,
+I can mount that bucket to `/usr/share/ngnix/html` and run the nxinx container. If custom config needed,
 I can mount my ngnix config from the GCS into `/etc/nginx/conf.d`
 
 #### Health checks
@@ -137,7 +137,7 @@ A very simple example would be
 async function route(request: Request) {
   const host = request.headers.get("host");
   let backend: string;
-  
+
   if (host.startsWith("api.")) {
     backend = "10.0.1.1";
   } else if (host.startsWith("auth.")) {
@@ -189,7 +189,7 @@ const _default = new gcp.cloudrunv2.Service("default", {
 });
 ```
 
-If some config needs to be mounted, you can create a bucket object in pulumi 
+If some config needs to be mounted, you can create a bucket object in pulumi
 ```ts
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
@@ -285,7 +285,7 @@ For internal subnets IPv4 is sufficient enough (10.0.0.0/8) gives you 16.7 milli
 NAT (Network Address Translation) is like a mail forwarding service for IP addresses
 ```plaintext
 Private Network (10.0.0.0/8)           Internet
-├── Device A (10.0.1.1) ─┐            
+├── Device A (10.0.1.1) ─┐
 ├── Device B (10.0.1.2) ─┼─→ NAT Gateway (34.xx.xx.xx) ─→ Internet
 └── Device C (10.0.1.3) ─┘
 ```
