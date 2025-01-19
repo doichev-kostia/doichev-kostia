@@ -157,7 +157,49 @@ AH, BH - 8 bit (high of AX, BX)
 Register AX
 [ah al] - [00000000 00000000] (16 bits)
 
+#### Signed & Unsigned numbers
+
+XOR - exclusive or
+
+| A | B | A XOR B |
+-------------------
+| 0 | 0 |    0    |
+| 0 | 1 |    1    |
+| 1 | 0 |    1    |
+| 1 | 1 |    0    |
+
+to find the value of the signed byte:
+- flip all bits (XOR with 0b11111111 or using the NOT operator)
+- add one
+
+5 -> 0000 0101
+-5 -> 1111 1011
+
+-5 -> 1111 1011 -> not (1111 1011) -> 0000 0100 + 1 -> 0000 0101
+
+
 #### Effective address
+
+EU - execution unit
+BIU - bus interface unit
+EA - effective address; It is an unsigned 16-bit number that
+expresses the operand's distance in bytes from the
+beginning of the segment in which it resides.
+
+Information encoded in the
+second byte of the instruction tells the EU how to
+calculate the effective address of each memory
+operand.
+
+```go
+// [opcode|d|m] [mod|reg|r/m] [displacement-low] [displacement-high] [data-low] [data-high]
+//    6    1 1    2   3   3
+// The intel x86 processors use Little Endian, so the low byte comes first
+// Disp-lo (Displacement low) - Low-order byte of optional 8- or 16-bit __unsigned__ displacement; MOD indicates if present.
+// Disp-hi (Displacement High) - High-order byte of optional 16-bit __unsigned__ displacement; MOD indicates if present.
+// Data-lo (Data low) - Low-order byte of 16-bit immediate constant.
+// Data-hi (Data high) - High-order byte of 16-bit immediate constant.
+```
 
 The `[<equation> + displacement]` is called an `effective address`.
 The equations can only be:
