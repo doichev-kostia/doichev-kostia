@@ -162,7 +162,7 @@ Register AX
 XOR - exclusive or
 
 | A | B | A XOR B |
--------------------
+|----|---|---------|
 | 0 | 0 |    0    |
 | 0 | 1 |    1    |
 | 1 | 0 |    1    |
@@ -220,3 +220,18 @@ the `mod` is `01` when the operation is using memory with 8-bit displacement
 the `mod` is `10` when the opertation is using memory with 16-bit displacement
 
 Exception: `mod` 00 can still have a displacement if `r/m` is `110`
+
+#### Arithmetic
+The `ADD`, `SUB`, `CMP` instructions follow the same pattern as move,
+they have an opcode and some additional flags.
+
+???The opcode for the immediate is the same. However, the ... pattern is different???
+
+|  op  | pattern |
+------------------
+| ADD  | 000     |
+| SUB  | 101     |
+| CMP  | 111     |
+
+#### Jumps
+jnz - jump if not zero
