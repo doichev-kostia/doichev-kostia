@@ -3,6 +3,100 @@ layout: "../../layouts/Markdown.astro"
 title: CS
 ---
 
+## Terminology
+Mathmatical terms in English
+
+Addition:
+Addend + Addend = Sum (Доданок + Доданок = Сума)
+Subtraction:
+Minuend - Subtrahend = Difference (Зменшуване - Від'ємник = Різниця)
+Multiplication:
+Multiplicand * Multiplier = Product (Множене * Множник = Добуток)
+Division:
+Dividend / Divisor = Quotient (+Remainder) (Ділене / Дільник = Частка (+Остача))
+
+Fractions
+```
+3    <-- Numerator (EN) / Чисельник (UA)
+-	 <-- Fraction bar (vinculum)
+4    <-- Denominator (EN) / Знаменник (UA)
+```
+
+Power/Exponent
+```
+2^3 (2 is the base, 3 is the exponent)
+```
+
+Root/Radical
+```
+√4 (square root = квадратний корінь)
+∛8 (cube root = кубічний корінь)
+```
+
+There is also a difference between US and European system of long division
+255 / 2 = 127 remainder 1
+
+European
+```
+ 255  | 2
+-2    ----
+ ---  | 127
+  5
+ -4
+ ---
+  15
+ -14
+  ---
+   1
+```
+
+US
+```
+  127 r 1
+  -----
+2 ) 255
+   -2
+   -----
+   	 5
+    -4
+    ------
+     15
+    -14
+    ----
+      1
+```
+
+Complement is not "praise someone".
+Complement (noun): In general terms, a complement is something that __completes__ or makes something whole.
+In mathematics, it often refers to the "opposite" or "inverted" part of something.
+
+One's complement:
+0 needs 1 to get to 1
+1 needs 0 to get to 1
+flip all the bits (0->1 and 1->0) (Logical NOT)
+
+For an n-bit number, the one's complement of a number N can be thought of as:
+One’s complement of N=(2^n−1)−N
+N = 4
+we need 3-bit system to represent 4
+one's complement of 4 = (2^3 - 1) - 4 => 3
+So, in a 3-bit system:
+- The binary representation of 4 is 100.
+- Its one's complement (flipping every bit) is 011, which represents 3 in binary.
+
+In a 8-bit system:
+ - (2^8 - 1) - 4 = 255 - 4 = 251 (0b11111011)
+
+Two's complement:
+flip all the bits AND add 1
+2^n = (2^n - 1) + 1
+Two’s complement of N=2^n−N
+
+N = 4
+in a 8-bit system
+The two's complement of N = 2^8 - 4 = 252 (0b11111100)
+
+
 ## Binary
 
 8 bit unsigned number
@@ -58,7 +152,17 @@ for negatives, same "flip" principle applies
 16-bit: 1111111111111011 (still -5)
 ```
 
-
 The thing to keep in mind is to not screw up with signed or unsigned,
 because while `11111011` is -5 in a signed interpretation,
 for unsigned it's 251
+
+## How the CPU actully executes things
+
+The programs are compiled to the "machine code" - a sequence of bytes which represent instructions. Usually, each instruction has an "opcode",
+which is an ID of "what needs to be done" and some operands that have additional metadata.
+
+For instance, in 8086 CPU, one of the opcodes for addition is `0000010`, but to add something, you need, well..., something. Those are the operands.
+So, the add instuction can be `00000100 00001001` which in assemly means `add al, 9`. The first byte stands for "add to register al",
+the second byte stands for "9".
+
+See https://defuse.ca/online-x86-assembler.htm#disassembly

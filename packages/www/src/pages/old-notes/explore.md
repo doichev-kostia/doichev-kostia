@@ -5,6 +5,11 @@ title: Dump of things I want to explore
 
 To Explore:
 
+- diagrams via code https://kroki.io/,https://d2lang.com/, https://c4model.com/diagrams, https://diagrams.mingrammer.com/
+- https://www.rondb.com/
+- https://how-did-i-get-here.net/
+- change data capture (CDC) with Debezium
+- https://github.com/seatedro/glimpse
 - https://guide.handmadehero.org/
 - mouseless app
 - Android emulator Bluestack for MacOS https://www.bluestacks.com/mac
